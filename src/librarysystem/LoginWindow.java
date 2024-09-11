@@ -180,7 +180,7 @@ public class LoginWindow extends JFrame implements LibWindow {
     	private void addBackButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
     			LibrarySystem.hideAllWindows();
-    			LibrarySystem.INSTANCE.setVisible(true);
+    			LibrarySystem.getInstance().setVisible(true);
     		});
     	}
     	

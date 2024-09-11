@@ -21,28 +21,41 @@ import business.SystemController;
 
 public class LibrarySystem extends JFrame implements LibWindow {
 	ControllerInterface ci = new SystemController();
-	public final static LibrarySystem INSTANCE =new LibrarySystem();
-	JPanel mainPanel;
-	JMenuBar menuBar;
-    JMenu options;
-    JMenuItem login, allBookIds, allMemberIds; 
-    String pathToImage;
+	private static LibrarySystem INSTANCE = null;
+	private JPanel mainPanel;
+	private JMenuBar menuBar;
+    private JMenu options;
+    private JMenuItem login, allBookIds, allMemberIds;
+    private String pathToImage;
+
     private boolean isInitialized = false;
     
-    private static LibWindow[] allWindows = { 
+    private static LibWindow[] allWindows = {
     	LibrarySystem.INSTANCE,
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE
 	};
-    	
+
+	private LibrarySystem() {
+	}
+
 	public static void hideAllWindows() {		
 		for(LibWindow frame: allWindows) {
 			frame.setVisible(false);			
 		}
 	}
-     
-    private LibrarySystem() {}
+
+	public static LibrarySystem getInstance() {
+		if (INSTANCE == null) {
+			synchronized (LibrarySystem.class) {
+				if (INSTANCE == null) {
+					INSTANCE = new LibrarySystem();
+				}
+			}
+		}
+		return INSTANCE;
+	}
     
     public void init() {
     	formatContentPane();

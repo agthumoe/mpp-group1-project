@@ -1,19 +1,24 @@
 package business;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Person implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 3665880920647848288L;
+
 	private String firstName;
 	private String lastName;
 	private String telephone;
 	private Address address;
-	public Person(String f, String l, String t, Address a) {
-		firstName = f;
-		lastName = l;
-		telephone = t;
-		address = a;
+
+	public Person(String firstName, String lastName, String telephone, Address address) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.telephone = telephone;
+		this.address = address;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -26,6 +31,7 @@ public class Person implements Serializable {
 	public Address getAddress() {
 		return address;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
