@@ -17,11 +17,12 @@ import javax.swing.JPanel;
 
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.DataAccessFacade;
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
-	ControllerInterface ci = new SystemController();
 	private static LibrarySystem INSTANCE = null;
+	private final ControllerInterface controller;
 	private JPanel mainPanel;
 	private JMenuBar menuBar;
     private JMenu options;
@@ -31,22 +32,28 @@ public class LibrarySystem extends JFrame implements LibWindow {
     private boolean isInitialized = false;
     
     private static LibWindow[] allWindows = {
-    	LibrarySystem.INSTANCE,
+    	LibrarySystem.getInstance(),
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
-		AllBookIdsWindow.INSTANCE
+		AllBookIdsWindow.getInstance()
 	};
 
 	private LibrarySystem() {
+		this.controller = SystemController.getInstance();
 	}
 
-	public static void hideAllWindows() {		
+	public static void hideAllWindows() {
+		int id = 0;
 		for(LibWindow frame: allWindows) {
-			frame.setVisible(false);			
+			if (frame == null) {
+				System.out.println("fram is being null: " + id);
+			}
+				frame.setVisible(false);
+			id++;
 		}
 	}
 
-	public static LibrarySystem getInstance() {
+	public synchronized static LibrarySystem getInstance() {
 		if (INSTANCE == null) {
 			synchronized (LibrarySystem.class) {
 				if (INSTANCE == null) {
@@ -121,20 +128,20 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
-			AllBookIdsWindow.INSTANCE.init();
+			AllBookIdsWindow.getInstance().init();
 			
-			List<String> ids = ci.allBookIds();
+			List<String> ids = controller.allBookIds();
 			Collections.sort(ids);
 			StringBuilder sb = new StringBuilder();
 			for(String s: ids) {
 				sb.append(s + "\n");
 			}
 			System.out.println(sb.toString());
-			AllBookIdsWindow.INSTANCE.setData(sb.toString());
-			AllBookIdsWindow.INSTANCE.pack();
+			AllBookIdsWindow.getInstance().setData(sb.toString());
+			AllBookIdsWindow.getInstance().pack();
 			//AllBookIdsWindow.INSTANCE.setSize(660,500);
-			Util.centerFrameOnDesktop(AllBookIdsWindow.INSTANCE);
-			AllBookIdsWindow.INSTANCE.setVisible(true);
+			Util.centerFrameOnDesktop(AllBookIdsWindow.getInstance());
+			AllBookIdsWindow.getInstance().setVisible(true);
 			
 		}
     	
@@ -151,9 +158,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			
 			
 			LibrarySystem.hideAllWindows();
-			AllBookIdsWindow.INSTANCE.init();
+			AllBookIdsWindow.getInstance().init();
 			
-			List<String> ids = ci.allMemberIds();
+			List<String> ids = controller.allMemberIds();
 			Collections.sort(ids);
 			StringBuilder sb = new StringBuilder();
 			for(String s: ids) {

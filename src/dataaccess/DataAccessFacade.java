@@ -8,71 +8,131 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
-
 import business.Book;
-import business.BookCopy;
+import business.CheckoutRecord;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
-
+import exceptions.BookNotFoundException;
 
 public class DataAccessFacade implements DataAccess {
+	private static DataAccess INSTANCE = null;
+
+	private DataAccessFacade() {}
+
+	public static synchronized DataAccess getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new DataAccessFacade();
+		}
+		return INSTANCE;
+	}
 	
 	enum StorageType {
 		BOOKS, MEMBERS, USERS;
 	}
-	// Windows user can use
-	
-	/*public static final String OUTPUT_DIR = System.getProperty("user.dir") 
-			+ "\\src\\dataaccess\\storage";*/
-	
-	// For Mac Users path can use / 
+
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
 			+ "/src/dataaccess/storage";
 	
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
-	
-	//implement: other save operations
-	public void saveNewMember(LibraryMember member) {
-		HashMap<String, LibraryMember> mems = readMemberMap();
+
+	public void saveMember(LibraryMember member) {
+		HashMap<String, LibraryMember> members = getAllMembers();
 		String memberId = member.getMemberId();
-		mems.put(memberId, member);
-		saveToStorage(StorageType.MEMBERS, mems);	
+		members.put(memberId, member);
+		saveToStorage(StorageType.MEMBERS, members);
 	}
 
 	@Override
-	public void saveNewBook(Book book) {
-		HashMap<String, Book> books = readBooksMap();
+	public void updateMember(LibraryMember member) {
+
+	}
+
+	@Override
+	public void deleteMember(LibraryMember member) {
+
+	}
+
+	@Override
+	public HashMap<String, CheckoutRecord> getAllCheckoutRecords() {
+		return null;
+	}
+
+	@Override
+	public void saveBook(Book book) {
+		HashMap<String, Book> books = getAllBooks();
 		String isbn = book.getIsbn();
 		books.put(isbn, book);
 		saveToStorage(StorageType.BOOKS, books);
 	}
 
+	@Override
+	public void updateBook(Book book) throws BookNotFoundException {
+		HashMap<String, Book> books = getAllBooks();
+		if (books.containsKey(book.getIsbn())) {
+			books.put(book.getIsbn(), book);
+		} else {
+			throw new BookNotFoundException("Book: " + book.getIsbn() + ", cannot be found.");
+		}
+		saveToStorage(StorageType.BOOKS, books);
+	}
+
+	@Override
+	public void deleteBook(Book book) {
+		HashMap<String, Book> books = getAllBooks();
+		if (books.containsKey(book.getIsbn())) {
+			books.remove(book.getIsbn());
+		} else {
+			throw new BookNotFoundException("Book: " + book.getIsbn() + ", cannot be found.");
+		}
+		saveToStorage(StorageType.BOOKS, books);
+	}
+
+	@Override
+	public void saveCheckout(CheckoutRecord checkoutRecord) {
+
+	}
+
+	@Override
+	public void updateCheckout(CheckoutRecord checkoutRecord) {
+
+	}
+
 	@SuppressWarnings("unchecked")
-	public  HashMap<String,Book> readBooksMap() {
-		//Returns a Map with name/value pairs being
-		//   isbn -> Book
+	public  HashMap<String,Book> getAllBooks() {
 		return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String, LibraryMember> readMemberMap() {
-		//Returns a Map with name/value pairs being
-		//   memberId -> LibraryMember
+	public HashMap<String, LibraryMember> getAllMembers() {
 		return (HashMap<String, LibraryMember>) readFromStorage(
 				StorageType.MEMBERS);
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String, User> readUserMap() {
+	public HashMap<String, User> getAllUsers() {
 		//Returns a Map with name/value pairs being
 		//   userId -> User
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
-	
-	
+
+	@Override
+	public void saveUser(User user) {
+
+	}
+
+	@Override
+	public void updateUser(User user) {
+
+	}
+
+	@Override
+	public void deleteUser(User user) {
+
+	}
+
+
 	/////load methods - these place test data into the storage area
-	///// - used just once at startup  
+	///// - used just once at startup
 	
 		
 	static void loadBookMap(List<Book> bookList) {

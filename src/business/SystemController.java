@@ -1,6 +1,5 @@
 package business;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,18 +8,26 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import exceptions.LoginException;
 
 public class SystemController implements ControllerInterface {
+	public static ControllerInterface INSTANCE;
 	public static Auth currentAuth = null;
-	private DataAccess dataAccess;
+	private final DataAccess dataAccess;
 
-	public SystemController(DataAccess dataAccess) {
-		this.dataAccess = dataAccess;
+	private SystemController() {
+		this.dataAccess = DataAccessFacade.getInstance();
+	}
+
+	public static synchronized ControllerInterface getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new SystemController();
+		}
+		return INSTANCE;
 	}
 	
 	public void login(String id, String password) throws LoginException {
-		DataAccess da = new DataAccessFacade();
-		HashMap<String, User> map = da.readUserMap();
+		HashMap<String, User> map = this.dataAccess.getAllUsers();
 		if(!map.containsKey(id)) {
 			throw new LoginException("ID " + id + " not found");
 		}
@@ -34,16 +41,16 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public void addMember(LibraryMember member) {
-		this.dataAccess.saveNewMember(member);
+		this.dataAccess.saveMember(member);
 	}
 
 	@Override
 	public void addBook(Book book) {
-		this.dataAccess.saveNewBook(book);
+		this.dataAccess.saveBook(book);
 	}
 
 	@Override
-	public void checkout(Book book, Member member) {
+	public void checkout(Book book, LibraryMember member) {
 
 	}
 
@@ -55,19 +62,15 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public List<String> allMemberIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readMemberMap().keySet());
+		retval.addAll(this.dataAccess.getAllMembers().keySet());
 		return retval;
 	}
 	
 	@Override
 	public List<String> allBookIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
-		retval.addAll(da.readBooksMap().keySet());
+		retval.addAll(this.dataAccess.getAllBooks().keySet());
 		return retval;
 	}
-	
-	
 }

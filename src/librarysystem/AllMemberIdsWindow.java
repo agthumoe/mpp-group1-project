@@ -12,11 +12,12 @@ import javax.swing.JPanel;
 
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.DataAccessFacade;
 
 
 public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	public static final AllMemberIdsWindow INSTANCE = new AllMemberIdsWindow();
-    ControllerInterface ci = new SystemController();
+	private final ControllerInterface controller;
 	private boolean isInitialized = false;
 	public JPanel getMainPanel() {
 		return mainPanel;
@@ -27,7 +28,9 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	private JPanel lowerPanel;
 	private TextArea textArea;
 	
-	private AllMemberIdsWindow() {}
+	private AllMemberIdsWindow() {
+		this.controller = SystemController.getInstance();
+	}
 	
 	public void init() {
 		mainPanel = new JPanel();

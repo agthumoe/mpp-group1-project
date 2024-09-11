@@ -15,8 +15,8 @@ public class Main {
 	}
 	//Returns a list of all ids of LibraryMembers whose zipcode contains the digit 3
 	public static List<String> allWhoseZipContains3() {
-		DataAccess da = new DataAccessFacade();
-		Collection<LibraryMember> members = da.readMemberMap().values();
+		DataAccess da = DataAccessFacade.getInstance();
+		Collection<LibraryMember> members = da.getAllMembers().values();
 		List<LibraryMember> mems = new ArrayList<>();
 		mems.addAll(members);
 		//implement
@@ -25,8 +25,8 @@ public class Main {
 	}
 	//Returns a list of all ids of  LibraryMembers that have an overdue book
 	public static List<String> allHavingOverdueBook() {
-		DataAccess da = new DataAccessFacade();
-		Collection<LibraryMember> members = da.readMemberMap().values();
+		DataAccess da = DataAccessFacade.getInstance();
+		Collection<LibraryMember> members = da.getAllMembers().values();
 		List<LibraryMember> mems = new ArrayList<>();
 		mems.addAll(members);
 		//implement
@@ -36,8 +36,8 @@ public class Main {
 	
 	//Returns a list of all isbns of  Books that have multiple authors
 	public static List<String> allHavingMultipleAuthors() {
-		DataAccess da = new DataAccessFacade();
-		Collection<Book> books = da.readBooksMap().values();
+		DataAccess da = DataAccessFacade.getInstance();
+		Collection<Book> books = da.getAllBooks().values();
 		List<Book> bs = new ArrayList<>();
 		bs.addAll(books);
 		//implement

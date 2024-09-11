@@ -27,10 +27,11 @@ public class TestData {
 //		td.bookData();
 //		td.libraryMemberData();
 //		td.userData();
-		DataAccess da = new DataAccessFacade();
+		DataAccess da = DataAccessFacade.getInstance();
 //		System.out.println(da.readBooksMap());
 //		System.out.println(da.readUserMap());
-		System.out.println(da.readBooksMap());
+		da.saveBook(new Book("99-11111", "Java 8", 3, new ArrayList<>()));
+		System.out.println(da.getAllBooks());
 	}
 	///create books
 	public void bookData() {

@@ -15,13 +15,14 @@ import javax.swing.JPanel;
 
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.DataAccessFacade;
 
 
 public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private static final long serialVersionUID = 1L;
-	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
-    ControllerInterface ci = new SystemController();
+	private static AllBookIdsWindow INSTANCE;
     private boolean isInitialized = false;
+	private final ControllerInterface controller;
 	
 	private JPanel mainPanel;
 	private JPanel topPanel;
@@ -31,7 +32,18 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	
 
 	//Singleton class
-	private AllBookIdsWindow() {}
+	private AllBookIdsWindow() {
+		this.controller = SystemController.getInstance();
+	}
+
+	public synchronized static AllBookIdsWindow getInstance() {
+		if (INSTANCE == null) {
+			synchronized (AllBookIdsWindow.class) {
+				INSTANCE = new AllBookIdsWindow();
+			}
+		}
+		return INSTANCE;
+	}
 	
 	public void init() {
 		mainPanel = new JPanel();
