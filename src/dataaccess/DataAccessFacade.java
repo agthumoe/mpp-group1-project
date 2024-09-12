@@ -12,6 +12,8 @@ import business.Book;
 import business.CheckoutRecord;
 import business.LibraryMember;
 import exceptions.BookNotFoundException;
+import exceptions.MemberNotFoundException;
+import exceptions.UserNotFoundException;
 
 public class DataAccessFacade implements DataAccess {
 	private static DataAccess INSTANCE = null;
@@ -43,12 +45,26 @@ public class DataAccessFacade implements DataAccess {
 
 	@Override
 	public void updateMember(LibraryMember member) {
+		HashMap<String, LibraryMember> members = getAllMembers();
+		if (members.containsKey(member.getMemberId())) {
+			members.put(member.getMemberId(), member);
+		} else {
+			throw new MemberNotFoundException("Member Id: " + member.getMemberId() + ", cannot be found.");
+		}
+		saveToStorage(StorageType.MEMBERS, member);
 
 	}
 
 	@Override
 	public void deleteMember(LibraryMember member) {
-
+		HashMap<String, LibraryMember> members = getAllMembers();
+		String memberId = member.getMemberId();
+		if (members.containsKey(memberId)) {
+			members.remove(memberId);
+		} else {
+			throw new MemberNotFoundException("Member Id: " + member.getMemberId() + ", cannot be found.");
+		}
+		saveToStorage(StorageType.MEMBERS, member);
 	}
 
 	@Override
@@ -117,18 +133,36 @@ public class DataAccessFacade implements DataAccess {
 
 	@Override
 	public void saveUser(User user) {
-
+		HashMap<String, User> users = getAllUsers();
+		users.put(user.getId(), user);
+		saveToStorage(StorageType.USERS, users);
 	}
+
 
 	@Override
 	public void updateUser(User user) {
+		HashMap<String, User> users = getAllUsers();
+		if (users.containsKey(user.getId())) {
+			users.put(user.getId(), user);
+		} else {
+			throw new UserNotFoundException("User: " + user.getId() + ", cannot be found.");
+		}
+		saveToStorage(StorageType.USERS, users);
 
 	}
 
 	@Override
 	public void deleteUser(User user) {
+		HashMap<String, User> users = getAllUsers();
+		if (users.containsKey(user.getId())) {
+			users.remove(user.getId());
+		} else {
+			throw new UserNotFoundException("User: " + user.getId() + ", cannot be found.");
+		}
+		saveToStorage(StorageType.USERS, users);
 
 	}
+
 
 
 	/////load methods - these place test data into the storage area
