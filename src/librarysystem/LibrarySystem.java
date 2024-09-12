@@ -1,40 +1,33 @@
 package librarysystem;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import business.ControllerInterface;
 import business.SystemController;
-import dataaccess.DataAccessFacade;
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
-	private static LibrarySystem INSTANCE = null;
+	private static LibrarySystem instance = null;
 	private final ControllerInterface controller;
 	private JPanel mainPanel;
 	private JMenuBar menuBar;
     private JMenu options;
     private JMenuItem login, allBookIds, allMemberIds;
     private String pathToImage;
+	private JLabel label;
 
     private boolean isInitialized = false;
     
     private static LibWindow[] allWindows = {
     	LibrarySystem.getInstance(),
-		LoginWindow.INSTANCE,
-		AllMemberIdsWindow.INSTANCE,	
+		LoginWindow.getInstance(),
+		AllMemberIdsWindow.getInstance(),
 		AllBookIdsWindow.getInstance()
 	};
 
@@ -54,30 +47,79 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	}
 
 	public synchronized static LibrarySystem getInstance() {
-		if (INSTANCE == null) {
-			synchronized (LibrarySystem.class) {
-				if (INSTANCE == null) {
-					INSTANCE = new LibrarySystem();
-				}
-			}
+		if (instance == null) {
+			instance = new LibrarySystem();
 		}
-		return INSTANCE;
+		return instance;
 	}
     
     public void init() {
     	formatContentPane();
-    	setPathToImage();
-    	insertSplashImage();
+//    	setPathToImage();
+//    	insertSplashImage();
 		
 		createMenus();
+		test();
 		//pack();
-		setSize(660,500);
+		setSize(800,600);
 		isInitialized = true;
     }
+
+	private void test() {
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		getContentPane().add(tabbedPane);
+//		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+
+		JPanel page1 = new JPanel();
+		page1.add(new JLabel("This is Tab 1"));
+
+		// Create the second tab (page2) and add a JLabel to it
+		JPanel page2 = new JPanel();
+		page2.add(new JLabel("This is Tab 2"));
+
+		// Create the third tab (page3) and add a JLabel to it
+		JPanel page3 = new JPanel();
+		page3.add(new JLabel("This is Tab 3"));
+
+		JPanel page4 = new JPanel();
+		page4.add(new JLabel("This is Tab 4"));
+
+		JPanel page5 = new JPanel();
+		page5.add(new JLabel("This is Tab 5"));
+
+		JPanel page6 = new JPanel();
+		page6.add(new JLabel("This is Tab 6"));
+
+		JPanel page7 = new JPanel();
+		page7.add(new JLabel("This is Tab 7"));
+
+		JPanel page8 = new JPanel();
+		page8.add(new JLabel("This is Tab 8"));
+
+		// Add the three tabs to the JTabbedPane
+		tabbedPane.addTab("Add Member", page1);
+		tabbedPane.addTab("Add Book", page2);
+		tabbedPane.addTab("Tab 3", page3);
+		tabbedPane.addTab("Tab 4", page4);
+		tabbedPane.addTab("Tab 5", page5);
+		tabbedPane.addTab("Tab 6", page6);
+		tabbedPane.addTab("Tab 7", page7);
+		tabbedPane.addTab("Tab 8", page8);
+
+//		this.label = new JLabel("Hello World 2");
+//		this.label.setBounds(247, 0, 305, 16);
+//		GridBagConstraints gbc = new GridBagConstraints();
+//		gbc.anchor = GridBagConstraints.WEST;
+//		gbc.insets = new Insets(0, 0, 0, 0);
+//		gbc.gridx = 0;
+//		gbc.gridy = 0;
+//		mainPanel.add(label, gbc);
+	}
     
     private void formatContentPane() {
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,1));
+//		mainPanel.setLayout(new GridLayout(1,1));
 		getContentPane().add(mainPanel);	
 	}
     
@@ -90,6 +132,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
         ImageIcon image = new ImageIcon(pathToImage);
 		mainPanel.add(new JLabel(image));	
     }
+
     private void createMenus() {
     	menuBar = new JMenuBar();
 		menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -116,9 +159,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
-			LoginWindow.INSTANCE.init();
-			Util.centerFrameOnDesktop(LoginWindow.INSTANCE);
-			LoginWindow.INSTANCE.setVisible(true);
+			LoginWindow.getInstance().init();
+			Util.centerFrameOnDesktop(LoginWindow.getInstance());
+			LoginWindow.getInstance().setVisible(true);
 			
 		}
     	
@@ -139,7 +182,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			System.out.println(sb.toString());
 			AllBookIdsWindow.getInstance().setData(sb.toString());
 			AllBookIdsWindow.getInstance().pack();
-			//AllBookIdsWindow.INSTANCE.setSize(660,500);
+			//AllBookIdsWindow.getInstance().setSize(660,500);
 			Util.centerFrameOnDesktop(AllBookIdsWindow.getInstance());
 			AllBookIdsWindow.getInstance().setVisible(true);
 			
@@ -152,9 +195,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
-			AllMemberIdsWindow.INSTANCE.init();
-			AllMemberIdsWindow.INSTANCE.pack();
-			AllMemberIdsWindow.INSTANCE.setVisible(true);
+			AllMemberIdsWindow.getInstance().init();
+			AllMemberIdsWindow.getInstance().pack();
+			AllMemberIdsWindow.getInstance().setVisible(true);
 			
 			
 			LibrarySystem.hideAllWindows();
@@ -167,11 +210,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
 				sb.append(s + "\n");
 			}
 			System.out.println(sb.toString());
-			AllMemberIdsWindow.INSTANCE.setData(sb.toString());
-			AllMemberIdsWindow.INSTANCE.pack();
-			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
-			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
-			AllMemberIdsWindow.INSTANCE.setVisible(true);
+			AllMemberIdsWindow.getInstance().setData(sb.toString());
+			AllMemberIdsWindow.getInstance().pack();
+			//AllMemberIdsWindow.getInstance().setSize(660,500);
+			Util.centerFrameOnDesktop(AllMemberIdsWindow.getInstance());
+			AllMemberIdsWindow.getInstance().setVisible(true);
 			
 			
 		}

@@ -16,7 +16,7 @@ import dataaccess.DataAccessFacade;
 
 
 public class AllMemberIdsWindow extends JFrame implements LibWindow {
-	public static final AllMemberIdsWindow INSTANCE = new AllMemberIdsWindow();
+	private static AllMemberIdsWindow instance;
 	private final ControllerInterface controller;
 	private boolean isInitialized = false;
 	public JPanel getMainPanel() {
@@ -30,6 +30,13 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 	
 	private AllMemberIdsWindow() {
 		this.controller = SystemController.getInstance();
+	}
+
+	public synchronized static AllMemberIdsWindow getInstance() {
+		if (instance == null) {
+			instance = new AllMemberIdsWindow();
+		}
+		return instance;
 	}
 	
 	public void init() {

@@ -16,19 +16,15 @@ import exceptions.MemberNotFoundException;
 import exceptions.UserNotFoundException;
 
 public class DataAccessFacade implements DataAccess {
-	private static DataAccess INSTANCE = null;
+	private static DataAccess instance = null;
 
 	private DataAccessFacade() {}
 
 	public static synchronized DataAccess getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new DataAccessFacade();
+		if (instance == null) {
+			instance = new DataAccessFacade();
 		}
-		return INSTANCE;
-	}
-	
-	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		return instance;
 	}
 
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -112,23 +108,17 @@ public class DataAccessFacade implements DataAccess {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> getAllBooks() {
-		return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
+		return readFromStorage(StorageType.BOOKS);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public HashMap<String, LibraryMember> getAllMembers() {
-		return (HashMap<String, LibraryMember>) readFromStorage(
-				StorageType.MEMBERS);
+		return readFromStorage(StorageType.MEMBERS);
 	}
 	
-	
-	@SuppressWarnings("unchecked")
+
 	public HashMap<String, User> getAllUsers() {
-		//Returns a Map with name/value pairs being
-		//   userId -> User
-		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
+		return readFromStorage(StorageType.USERS);
 	}
 
 	@Override
@@ -198,12 +188,13 @@ public class DataAccessFacade implements DataAccess {
 			if(out != null) {
 				try {
 					out.close();
-				} catch(Exception e) {}
+				} catch(Exception _) {}
 			}
 		}
 	}
-	
-	static Object readFromStorage(StorageType type) {
+
+	@SuppressWarnings("unchecked")
+	public static <K, V> HashMap<K, V> readFromStorage(StorageType type) {
 		ObjectInputStream in = null;
 		Object retVal = null;
 		try {
@@ -216,10 +207,10 @@ public class DataAccessFacade implements DataAccess {
 			if(in != null) {
 				try {
 					in.close();
-				} catch(Exception e) {}
+				} catch(Exception _) {}
 			}
 		}
-		return retVal;
+		return (HashMap<K, V>) retVal;
 	}
 	
 	

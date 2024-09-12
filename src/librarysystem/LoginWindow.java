@@ -22,7 +22,7 @@ import business.SystemController;
 
 
 public class LoginWindow extends JFrame implements LibWindow {
-    public static final LoginWindow INSTANCE = new LoginWindow();
+    private static LoginWindow instance;
 	
 	private boolean isInitialized = false;
 	
@@ -43,10 +43,17 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JLabel label;
 	private JButton loginButton;
 	private JButton logoutButton;
-	
-	
-	
-	
+
+	/* This class is a singleton */
+	private LoginWindow () {}
+
+	public synchronized static LoginWindow getInstance() {
+		if (instance == null) {
+			instance = new LoginWindow();
+		}
+		return instance;
+	}
+
 	public boolean isInitialized() {
 		return isInitialized;
 	}
@@ -54,13 +61,11 @@ public class LoginWindow extends JFrame implements LibWindow {
 		isInitialized = val;
 	}
 	private JTextField messageBar = new JTextField();
+
 	public void clear() {
 		messageBar.setText("");
 	}
-	
-	/* This class is a singleton */
-    private LoginWindow () {}
-    
+
     public void init() {     		
     		mainPanel = new JPanel();
     		defineUpperHalf();
