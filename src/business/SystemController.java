@@ -11,7 +11,7 @@ import dataaccess.User;
 import exceptions.LoginException;
 
 public class SystemController implements ControllerInterface {
-	public static ControllerInterface INSTANCE;
+	public static ControllerInterface instance;
 	public static Auth currentAuth = null;
 	private final DataAccess dataAccess;
 
@@ -20,10 +20,10 @@ public class SystemController implements ControllerInterface {
 	}
 
 	public static synchronized ControllerInterface getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new SystemController();
+		if (instance == null) {
+			instance = new SystemController();
 		}
-		return INSTANCE;
+		return instance;
 	}
 	
 	public void login(String id, String password) throws LoginException {
@@ -50,7 +50,7 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void checkout(Book book, LibraryMember member) {
+	public void checkout(String isbn, String memberId) {
 
 	}
 

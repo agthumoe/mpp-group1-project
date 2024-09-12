@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,15 +13,14 @@ import javax.swing.JPanel;
 
 import business.ControllerInterface;
 import business.SystemController;
-import dataaccess.DataAccessFacade;
 
 
 public class AllBookIdsWindow extends JFrame implements LibWindow {
 	private static final long serialVersionUID = 1L;
-	private static AllBookIdsWindow INSTANCE;
+	private static AllBookIdsWindow instance;
     private boolean isInitialized = false;
 	private final ControllerInterface controller;
-	
+
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
@@ -37,14 +34,12 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	}
 
 	public synchronized static AllBookIdsWindow getInstance() {
-		if (INSTANCE == null) {
-			synchronized (AllBookIdsWindow.class) {
-				INSTANCE = new AllBookIdsWindow();
-			}
+		if (instance == null) {
+			instance = new AllBookIdsWindow();
 		}
-		return INSTANCE;
+		return instance;
 	}
-	
+
 	public void init() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());

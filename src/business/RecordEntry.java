@@ -8,10 +8,12 @@ public class RecordEntry implements Serializable {
 
     private LocalDate dateOfCheckout;
     private LocalDate dueDate;
+    private BookCopy bookCopy;
 
-    public RecordEntry(LocalDate dateOfCheckout, LocalDate dueDate) {
+    public RecordEntry(LocalDate dateOfCheckout, LocalDate dueDate, BookCopy bookCopy) {
         this.dateOfCheckout = dateOfCheckout;
         this.dueDate = dueDate;
+        this.bookCopy = bookCopy;
     }
 
     public LocalDate getDateOfCheckout() {
@@ -28,5 +30,13 @@ public class RecordEntry implements Serializable {
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public BookCopy getBookCopy() {
+        return bookCopy;
+    }
+
+    public void setBookCopy(BookCopy bookCopy) {
+        this.bookCopy = bookCopy;
     }
 }
