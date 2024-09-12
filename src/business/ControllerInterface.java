@@ -1,11 +1,12 @@
 package business;
 
+import dataaccess.Auth;
 import exceptions.LoginException;
 
 import java.util.List;
 
 public interface ControllerInterface {
-	void login(String id, String password) throws LoginException;
+	Auth login(String id, String password) throws LoginException;
 	void addMember(LibraryMember member);
 	void addBook(Book book);
 	void checkout(String isbn, String memberId);
