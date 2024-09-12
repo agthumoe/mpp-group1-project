@@ -51,7 +51,33 @@ public class SystemController implements ControllerInterface {
 
 	@Override
 	public void checkout(String isbn, String memberId) {
+		/*
+		If both member ID and book ID are found and a copy is available,
+		a new checkout record entry is created,
+		containing the copy of the requested book and the checkout date and due date.
+		 */
 
+		/*
+		member.getMemberId();
+		book.getIsbn();
+		boolean b = book.getCopies().length == 0;
+
+		// Member or book not found
+
+		BookCopy availableCopy = book.isAvailable()
+		if (availableCopy == null) {
+
+		}
+
+		String checkoutDate = // todaydate
+		String dueDate = // 7 or 21 days
+		CheckoutEntry entry = new CheckoutEntry(availableCopy, checkoutDate, dueDate);
+		member.getCheckoutRecord().addEntry(entry);
+		availableCopy.setAvailable(false);
+
+		dataAccess.saveNewMember(member);
+		dataAccess.saveNewBook(book);
+		*/
 	}
 
 	@Override
