@@ -18,7 +18,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	private JPanel mainPanel;
 	private JMenuBar menuBar;
     private JMenu options;
-    private JMenuItem login, allBookIds, allMemberIds;
+    private JMenuItem login, allBookIds, allMemberIds, addMember;
     private String pathToImage;
 	private JLabel label;
 
@@ -28,7 +28,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	LibrarySystem.getInstance(),
 		LoginWindow.getInstance(),
 		AllMemberIdsWindow.getInstance(),
-		AllBookIdsWindow.getInstance()
+		AllBookIdsWindow.getInstance(),
+		AddMemberWindow.getInstance()
 	};
 
 	private LibrarySystem() {
@@ -149,9 +150,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   allBookIds.addActionListener(new AllBookIdsListener());
  	   allMemberIds = new JMenuItem("All Member Ids");
  	   allMemberIds.addActionListener(new AllMemberIdsListener());
+		addMember = new JMenuItem("Add Member");
+		addMember.addActionListener(new AddMemberIdsListener());
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
+		options.add(addMember);
     }
     
     class LoginListener implements ActionListener {
@@ -220,6 +224,37 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
     	
     }
+
+	class AddMemberIdsListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AddMemberWindow.getInstance().init();
+			AddMemberWindow.getInstance().pack();
+			AddMemberWindow.getInstance().setVisible(true);
+
+
+			LibrarySystem.hideAllWindows();
+			AddMemberWindow.getInstance().init();
+
+//			List<String> ids = controller.allMemberIds();
+//			Collections.sort(ids);
+//			StringBuilder sb = new StringBuilder();
+//			for(String s: ids) {
+//				sb.append(s + "\n");
+//			}
+//			System.out.println(sb.toString());
+//			AllMemberIdsWindow.getInstance().setData(sb.toString());
+			AddMemberWindow.getInstance().pack();
+			AddMemberWindow.getInstance().setSize(400,600);
+			Util.centerFrameOnDesktop(AddMemberWindow.getInstance());
+			AddMemberWindow.getInstance().setVisible(true);
+
+
+		}
+
+	}
 
 	@Override
 	public boolean isInitialized() {
