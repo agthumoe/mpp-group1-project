@@ -1,6 +1,7 @@
 package librarysystem;
 
 import business.SystemController;
+import dataaccess.Auth;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,26 +15,45 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
 
     @Override
     public void init() {
-        setSize(660, 500);
+        setPreferredSize(new Dimension(660, 500));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.formatMenus();
         this.formatContentPane();
         this.pack();
         this.isInitialized = true;
-        this.centerFrameOnDesktop();
+        Util.centerFrameOnDesktop(this);
         this.setVisible(true);
+        this.updateAuth(SystemController.getCurrentAuth());
     }
 
-    private final LibWindow[] allWindows = {
-            LibrarySystem.getInstance(),
-            LoginWindow.getInstance(),
-            AllMemberIdsWindow.getInstance(),
-            AllBookIdsWindow.getInstance()
-    };
-
-    protected final void hideAllWindows() {
-        for (LibWindow frame : this.allWindows) {
-            frame.setVisible(false);
+    public final void updateAuth(Auth auth) {
+        if (this.isInitialized) {
+            this.loginMenuItem.setEnabled(false);
+            this.logoutMenuItem.setEnabled(true);
+            if (Auth.ADMIN.equals(auth)) {
+                this.bookMenu.setEnabled(true);
+                this.memberMenu.setEnabled(true);
+                this.addMemberMenuItem.setEnabled(true);
+                this.addBookMenuItem.setEnabled(true);
+                this.addCheckoutRecordMenuItem.setEnabled(false);
+            } else if (Auth.LIBRARIAN.equals(auth)) {
+                this.bookMenu.setEnabled(true);
+                this.memberMenu.setEnabled(true);
+                this.checkoutRecordMenu.setEnabled(true);
+                this.addMemberMenuItem.setEnabled(false);
+                this.addBookMenuItem.setEnabled(false);
+            } else if (Auth.BOTH.equals(auth)) {
+                this.checkoutRecordMenu.setEnabled(false);
+                this.addMemberMenuItem.setEnabled(false);
+                this.addBookMenuItem.setEnabled(false);
+            } else if (auth == null) {
+                this.loginMenuItem.setEnabled(true);
+                this.logoutMenuItem.setEnabled(false);
+                this.accountDetailsMenuItem.setEnabled(false);
+                this.bookMenu.setEnabled(false);
+                this.memberMenu.setEnabled(false);
+                this.checkoutRecordMenu.setEnabled(false);
+            }
         }
     }
 
@@ -62,31 +82,50 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.addCheckoutRecordMenuItem = new JMenuItem("Add Checkout Record");
         this.memberListMenuItem = new JMenuItem("List All Members");
         this.loginMenuItem.addActionListener((e) -> {
-            LibrarySystem.hideAllWindows();
-            LoginWindow.getInstance().init();
+            Util.hideAllWindows();
+            if (!LoginWindow.getInstance().isInitialized()) {
+                LoginWindow.getInstance().init();
+                Util.centerFrameOnDesktop(LoginWindow.getInstance());
+            }
+            LoginWindow.getInstance().setVisible(true);
+            LoginWindow.getInstance().reset();
         });
         this.logoutMenuItem.addActionListener((evt) -> {
-            SystemController.currentAuth = null;
-            this.logoutMenuItem.setEnabled(false);
-            this.loginMenuItem.setEnabled(true);
+            SystemController.setCurrentAuth(null);
             JOptionPane.showMessageDialog(this,"Logout Successful");
         });
         this.bookListMenuItem.addActionListener((e) -> {
-            // implement here.
+            Util.hideAllWindows();
         });
         this.addBookMenuItem.addActionListener((e) -> {
             // implement here.
         });
 
         this.memberListMenuItem.addActionListener((e) -> {
-            // implement here.
+            Util.hideAllWindows();
+            if (!AllMembersWindow.getInstance().isInitialized()) {
+                AllMembersWindow.getInstance().init();
+            }
+            AllMembersWindow.getInstance().setVisible(true);
         });
         this.addMemberMenuItem.addActionListener((e) -> {
-            // implement here.
+            Util.hideAllWindows();
+            if(!AddMemberWindow.getInstance().isInitialized()) {
+                AddMemberWindow.getInstance().init();
+            }
+            AddMemberWindow.getInstance().setVisible(true);
+            AddMemberWindow.getInstance().reset();
         });
         this.bookMenu.add(this.bookListMenuItem);
         this.bookMenu.add(this.addBookMenuItem);
-
+        this.addBookMenuItem.addActionListener((e) -> {
+            Util.hideAllWindows();
+            if (!AddBookWindow.getInstance().isInitialized()) {
+                AddBookWindow.getInstance().init();
+            }
+            AddBookWindow.getInstance().setVisible(true);
+            AddBookWindow.getInstance().reset();
+        });
         this.memberMenu.add(this.memberListMenuItem);
         this.memberMenu.add(this.addMemberMenuItem);
 
@@ -106,14 +145,5 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
     @Override
     public void isInitialized(boolean val) {
         this.isInitialized = val;
-    }
-
-    private void centerFrameOnDesktop() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        int height = toolkit.getScreenSize().height;
-        int width = toolkit.getScreenSize().width;
-        int frameHeight = this.getSize().height;
-        int frameWidth = this.getSize().width;
-        this.setLocation((width - frameWidth) / 2, (height - frameHeight) / 2);
     }
 }

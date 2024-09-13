@@ -3,21 +3,34 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
 import exceptions.LoginException;
+import librarysystem.AddMemberWindow;
+import librarysystem.AllMembersWindow;
+import librarysystem.LibrarySystem;
 
 public class SystemController implements ControllerInterface {
 	public static ControllerInterface instance;
-	public static Auth currentAuth = null;
+	private static Auth currentAuth = null;
 	private final DataAccess dataAccess;
 
 	private SystemController() {
 		this.dataAccess = DataAccessFacade.getInstance();
+	}
+
+	public static Auth getCurrentAuth() {
+		return currentAuth;
+	}
+
+	public static void setCurrentAuth(Auth currentAuth) {
+		SystemController.currentAuth = currentAuth;
+		LibrarySystem.getInstance().updateAuth(currentAuth);
+		AddMemberWindow.getInstance().updateAuth(currentAuth);
+		AllMembersWindow.getInstance().updateAuth(currentAuth);
 	}
 
 	public static synchronized ControllerInterface getInstance() {
