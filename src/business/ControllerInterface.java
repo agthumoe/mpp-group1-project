@@ -10,7 +10,7 @@ public interface ControllerInterface {
 	Auth login(String id, String password) throws LoginException;
 	void addMember(LibraryMember member);
 	void addBook(Book book);
-	void checkout(String isbn, String memberId);
+	Book checkout(String isbn, String memberId);
 	void makeCopy(Book book);
 	List<LibraryMember> getAllMembers();
 	List<String> allMemberIds();

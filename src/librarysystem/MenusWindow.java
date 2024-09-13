@@ -11,7 +11,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
     protected JPanel mainPanel;
     private JMenuBar menuBar;
     private JMenu bookMenu, memberMenu, checkoutRecordMenu, accountMenu;
-    private JMenuItem loginMenuItem, logoutMenuItem, accountDetailsMenuItem, bookListMenuItem, memberListMenuItem, addMemberMenuItem, addBookMenuItem, addCheckoutRecordMenuItem;
+    private JMenuItem loginMenuItem, logoutMenuItem, accountDetailsMenuItem, bookListMenuItem, memberListMenuItem, addMemberMenuItem, addBookMenuItem, addCheckoutRecordMenuItem, bookCheckout;
 
     @Override
     public void init() {
@@ -78,6 +78,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.accountDetailsMenuItem = new JMenuItem("Account Details");
         this.bookListMenuItem = new JMenuItem("List All Book");
         this.addBookMenuItem = new JMenuItem("Add New Book");
+        this.bookCheckout = new JMenuItem("Book Checkout");
         this.addMemberMenuItem = new JMenuItem("Add New Member");
         this.addCheckoutRecordMenuItem = new JMenuItem("Add Checkout Record");
         this.memberListMenuItem = new JMenuItem("List All Members");
@@ -118,6 +119,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.bookMenu.add(this.bookListMenuItem);
         this.bookMenu.add(this.addBookMenuItem);
+        this.bookMenu.add(this.bookCheckout);
         this.addBookMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
             if (!AddBookWindow.getInstance().isInitialized()) {

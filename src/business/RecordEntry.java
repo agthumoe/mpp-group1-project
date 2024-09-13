@@ -16,6 +16,12 @@ public class RecordEntry implements Serializable {
         this.bookCopy = bookCopy;
     }
 
+    public RecordEntry(BookCopy bookCopy) {
+        this.bookCopy = bookCopy;
+        this.dateOfCheckout = LocalDate.now();
+        this.dueDate = LocalDate.now().plusDays(bookCopy.getBook().getMaxCheckoutLength());
+    }
+
     public LocalDate getDateOfCheckout() {
         return dateOfCheckout;
     }
