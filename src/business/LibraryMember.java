@@ -10,8 +10,8 @@ import dataaccess.DataAccessFacade;
 final public class LibraryMember extends Person implements Serializable {
 	private String memberId;
 	
-	public LibraryMember(String memberId, String fname, String lname, String tel,Address add) {
-		super(fname,lname, tel, add);
+	public LibraryMember(String memberId, String firstName, String lastName, String telephone, Address address) {
+		super(firstName,lastName, telephone, address);
 		this.memberId = memberId;		
 	}
 

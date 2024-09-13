@@ -3,6 +3,7 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
@@ -26,7 +27,7 @@ public class SystemController implements ControllerInterface {
 		return instance;
 	}
 	
-	public void login(String id, String password) throws LoginException {
+	public Auth login(String id, String password) throws LoginException {
 		HashMap<String, User> map = this.dataAccess.getAllUsers();
 		if(!map.containsKey(id)) {
 			throw new LoginException("ID " + id + " not found");
@@ -35,8 +36,7 @@ public class SystemController implements ControllerInterface {
 		if(!passwordFound.equals(password)) {
 			throw new LoginException("Password incorrect");
 		}
-		currentAuth = map.get(id).getAuthorization();
-		
+		return map.get(id).getAuthorization();
 	}
 
 	@Override
@@ -58,6 +58,11 @@ public class SystemController implements ControllerInterface {
 	public void makeCopy(Book book) {
 		book.addCopy();
 
+	}
+
+	@Override
+	public List<LibraryMember> getAllMembers() {
+		return this.dataAccess.getAllMembers().values().stream().toList();
 	}
 
 	@Override
