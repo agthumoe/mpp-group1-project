@@ -110,7 +110,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			this.loginMenuItem.setEnabled(true);
 			JOptionPane.showMessageDialog(this,"Logout Successful");
 		});
-		this.bookListMenuItem.addActionListener(new AllBookIdsListener());
+		this.bookListMenuItem.addActionListener(new AllBooksListener());
         this.memberListMenuItem.addActionListener(new AllMemberIdsListener());
         this.addMemberMenuItem.addActionListener(new AddMemberListener());
         this.addBookMenuItem.addActionListener(new AddBookListener());
@@ -206,6 +206,34 @@ public class LibrarySystem extends JFrame implements LibWindow {
     @Override
     public boolean isInitialized() {
         return isInitialized;
+    }
+
+    class AllBooksListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            LibrarySystem.hideAllWindows();
+            AllBooksWindow.getInstance().init();
+            AllBooksWindow.getInstance().pack();
+            AllBooksWindow.getInstance().setVisible(true);
+
+            LibrarySystem.hideAllWindows();
+            AllBookIdsWindow.getInstance().init();
+
+            List<String> ids = controller.allBookIds();
+            Collections.sort(ids);
+            StringBuilder sb = new StringBuilder();
+            for (String s : ids) {
+                sb.append(s + "\n");
+            }
+            System.out.println(sb.toString());
+//            AllBooksWindow.getInstance().setData(sb.toString());
+            AllBooksWindow.getInstance().pack();
+            //AllMemberIdsWindow.getInstance().setSize(660,500);
+            Util.centerFrameOnDesktop(AllBooksWindow.getInstance());
+            AllBooksWindow.getInstance().setVisible(true);
+        }
+
     }
 
 	class AddMemberListener implements ActionListener {
