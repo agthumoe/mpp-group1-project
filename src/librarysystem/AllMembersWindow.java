@@ -23,7 +23,7 @@ public class AllMembersWindow extends MenusWindow {
 
 	private static AllMembersWindow instance;
 	private JTable table;
-	private JButton btnAddMember;
+	private JButton btnAddMember, btnBackToMainMenu;
 	private DefaultTableModel tableModel;
 	private final ControllerInterface controller;
 
@@ -52,7 +52,7 @@ public class AllMembersWindow extends MenusWindow {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] {10, 487, 0, 10};
+		gbl_panel.columnWidths = new int[] {10, 100, 487, 100, 10};
 		gbl_panel.rowHeights = new int[]{10, 23, 0};
 		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
@@ -61,7 +61,7 @@ public class AllMembersWindow extends MenusWindow {
 		btnAddMember = new JButton("Add Member");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.gridx = 2;
+		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 1;
 		panel.add(btnAddMember, gbc_btnNewButton);
 		this.btnAddMember.addActionListener((e) -> {
@@ -72,10 +72,16 @@ public class AllMembersWindow extends MenusWindow {
 			AddMemberWindow.getInstance().setVisible(true);
 			AddMemberWindow.getInstance().reset();
 		});
-		this.loadData();
+		btnBackToMainMenu = new JButton("Back to Main Menu");
+		GridBagConstraints gbc_btnBackToMainMenu = new GridBagConstraints();
+		gbc_btnBackToMainMenu.fill = GridBagConstraints.BOTH;
+		gbc_btnBackToMainMenu.gridx = 1;
+		gbc_btnBackToMainMenu.gridy = 1;
+		panel.add(btnBackToMainMenu, gbc_btnBackToMainMenu);
 	}
 
-	private void loadData() {
+	public void loadData() {
+		this.tableModel.setRowCount(0);
 		List<LibraryMember> members = this.controller.getAllMembers();
 		for (LibraryMember member: members) {
 			String[] row = new String[]{member.getMemberId(), member.getFirstName(), member.getLastName(), member.getAddress().getStreet(), member.getAddress().getCity(), member.getAddress().getState(), member.getAddress().getZip(), member.getTelephone()};
