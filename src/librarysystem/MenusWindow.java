@@ -74,6 +74,10 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.bookListMenuItem.addActionListener((e) -> {
             // implement here.
         });
+        this.addBookMenuItem.addActionListener((e) -> {
+            // implement here.
+        });
+
         this.memberListMenuItem.addActionListener((e) -> {
             // implement here.
         });
