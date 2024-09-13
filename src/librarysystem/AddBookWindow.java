@@ -10,7 +10,6 @@ import java.util.*;
 public class AddBookWindow extends MenusWindow {
 
     private static AddBookWindow instance;
-    private boolean isInitialized = false;
     private final ControllerInterface controller;
 
     private JTextField isbnField, titleField, maxCheckoutLengthField, copiesField, authorFirstNameField, authorLastNameField, authorTelephoneField, authorAddressField, authorBioField;
@@ -27,8 +26,8 @@ public class AddBookWindow extends MenusWindow {
         return instance;
     }
 
-
-    public void init() {
+    @Override
+    public void formatContentPane() {
         setTitle("Add Book");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -136,33 +135,33 @@ public class AddBookWindow extends MenusWindow {
                     Book b1 = new Book(isbn, title, checkoutLength, authors);
                     controller.addBook(b1);
                     b1.addCopy();
+                    JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
+                    reset();
                 } else {
                 }
             }
         });
 
         backButton.addActionListener(e -> {
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
+            if (!LibrarySystem.getInstance().isInitialized()) {
+                LibrarySystem.getInstance().init();
+            }
             LibrarySystem.getInstance().setVisible(true);
             this.setVisible(false);
         });
-
-        isInitialized = true;
     }
 
-    @Override
-    public void formatContentPane() {
-
-    }
-
-    @Override
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-
-    @Override
-    public void isInitialized(boolean val) {
-        isInitialized = val;
+    public void reset() {
+        this.isbnField.setText("");
+        this.titleField.setText("");
+        this.maxCheckoutLengthField.setText("");
+        this.copiesField.setText("");
+        this.authorFirstNameField.setText("");
+        this.authorLastNameField.setText("");
+        this.authorTelephoneField.setText("");
+        this.authorAddressField.setText("");
+        this.authorBioField.setText("");
     }
 }
 

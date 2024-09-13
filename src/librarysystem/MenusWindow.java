@@ -118,7 +118,14 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.bookMenu.add(this.bookListMenuItem);
         this.bookMenu.add(this.addBookMenuItem);
-
+        this.addBookMenuItem.addActionListener((e) -> {
+            Util.hideAllWindows();
+            if (!AddBookWindow.getInstance().isInitialized()) {
+                AddBookWindow.getInstance().init();
+            }
+            AddBookWindow.getInstance().setVisible(true);
+            AddBookWindow.getInstance().reset();
+        });
         this.memberMenu.add(this.memberListMenuItem);
         this.memberMenu.add(this.addMemberMenuItem);
 
