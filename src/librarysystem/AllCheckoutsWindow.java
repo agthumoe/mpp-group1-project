@@ -82,7 +82,7 @@ public class AllCheckoutsWindow extends JFrame {
         });
 
         backButton.addActionListener(e -> {
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             LibrarySystem.getInstance().setVisible(true);
             this.setVisible(false);
         });
