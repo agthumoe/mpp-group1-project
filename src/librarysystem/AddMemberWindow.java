@@ -1,10 +1,13 @@
 package librarysystem;
+import business.Address;
 import business.ControllerInterface;
+import business.LibraryMember;
 import business.SystemController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 public class AddMemberWindow extends JFrame implements LibWindow {
 
@@ -13,9 +16,9 @@ public class AddMemberWindow extends JFrame implements LibWindow {
     private boolean isInitialized = false;
     private final ControllerInterface controller;
 
-    private JTextField memberIdField, firstNameField, lastNameField, streetField, cityField, stateField, zipField, phoneField;
+    private JTextField memberIdField, firstNameField, lastNameField, streetField, cityField, stateField, zipField, telephoneField;
     private JButton addButton, backButton;
-    private JLabel statusLabel;
+//    private JLabel statusLabel;
 
     private AddMemberWindow() {
         this.controller = SystemController.getInstance();
@@ -27,7 +30,6 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         }
         return instance;
     }
-
 
     public void init() {
         setTitle("Add Library Member");
@@ -43,6 +45,7 @@ public class AddMemberWindow extends JFrame implements LibWindow {
 
         memberIdField = new JTextField(20);
         memberIdField.setBounds(100, 20, 165, 25);
+        memberIdField.setEditable(false);
         panel.add(memberIdField);
 
         JLabel firstNameLabel = new JLabel("First Name:");
@@ -97,9 +100,9 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         phoneLabel.setBounds(10, 300, 80, 25);
         panel.add(phoneLabel);
 
-        phoneField = new JTextField(20);
-        phoneField.setBounds(100, 300, 165, 25);
-        panel.add(phoneField);
+        telephoneField = new JTextField(20);
+        telephoneField.setBounds(100, 300, 165, 25);
+        panel.add(telephoneField);
 
         addButton = new JButton("Add Member");
         addButton.setBounds(100, 340, 150, 25);
@@ -109,41 +112,45 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         backButton.setBounds(100, 380, 150, 25);
         panel.add(backButton);
 
-        statusLabel = new JLabel("");
-        statusLabel.setBounds(10, 420, 300, 25);
-        panel.add(statusLabel);
+//        statusLabel = new JLabel("");
+//        statusLabel.setBounds(10, 420, 300, 25);
+//        panel.add(statusLabel);
 
         add(panel);
 
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String memberId = memberIdField.getText();
-                String firstName = firstNameField.getText();
-                String lastName = lastNameField.getText();
-                String street = streetField.getText();
-                String city = cityField.getText();
-                String state = stateField.getText();
-                String zip = zipField.getText();
-                String phone = phoneField.getText();
+        addButton.addActionListener(e -> {
+            String memberId = memberIdField.getText();
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            String street = streetField.getText();
+            String city = cityField.getText();
+            String state = stateField.getText();
+            String zip = zipField.getText();
+            String telephone = telephoneField.getText();
 
-//                Address address = new Address(street, city, state, zip);
-//                LibraryMember member = new LibraryMember(memberId, firstName, lastName, phone, address);
-//                SystemController controller = new SystemController();
-//                controller.addMember(member);
-                statusLabel.setText("Member added successfully!");
-            }
+            controller.addMember(new LibraryMember(UUID.randomUUID().toString(), firstName, lastName, telephone, new Address(street, city, state, zip)));
+            JOptionPane.showMessageDialog(AddMemberWindow.this, "Member added successfully.");
+            this.reset();
         });
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LibrarySystem.hideAllWindows();
-                LibrarySystem.getInstance().setVisible(true);
-            }
+        backButton.addActionListener(e -> {
+            LibrarySystem.hideAllWindows();
+            LibrarySystem.getInstance().setVisible(true);
+            this.setVisible(false);
         });
 
         isInitialized = true;
+    }
+
+    private void reset() {
+        this.memberIdField.setText("");
+        this.firstNameField.setText("");
+        this.lastNameField.setText("");
+        this.streetField.setText("");
+        this.cityField.setText("");
+        this.stateField.setText("");
+        this.zipField.setText("");
+        this.telephoneField.setText("");
     }
 
     @Override
