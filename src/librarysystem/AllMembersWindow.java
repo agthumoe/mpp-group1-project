@@ -4,26 +4,18 @@ import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JScrollPane;
 import java.awt.GridBagConstraints;
 import javax.swing.JTable;
-import java.awt.Insets;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import java.awt.GridLayout;
-import java.lang.reflect.Member;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class AllMembersWindow extends MenusWindow {
@@ -31,7 +23,7 @@ public class AllMembersWindow extends MenusWindow {
 
 	private static AllMembersWindow instance;
 	private JTable table;
-	private JButton btnNewButton;
+	private JButton btnAddMember;
 	private DefaultTableModel tableModel;
 	private final ControllerInterface controller;
 
@@ -66,13 +58,20 @@ public class AllMembersWindow extends MenusWindow {
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
-		btnNewButton = new JButton("Add Member");
+		btnAddMember = new JButton("Add Member");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 1;
-		panel.add(btnNewButton, gbc_btnNewButton);
-
+		panel.add(btnAddMember, gbc_btnNewButton);
+		this.btnAddMember.addActionListener((e) -> {
+			Util.hideAllWindows();
+			if(!AddMemberWindow.getInstance().isInitialized()) {
+				AddMemberWindow.getInstance().init();
+			}
+			AddMemberWindow.getInstance().setVisible(true);
+			AddMemberWindow.getInstance().reset();
+		});
 		this.loadData();
 	}
 
