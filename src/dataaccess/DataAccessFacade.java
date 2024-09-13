@@ -87,6 +87,26 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.BOOKS, books);
 	}
 
+	public void saveNewRecord(CheckoutRecord record){
+		HashMap<String, CheckoutRecord> recordsMap = readRecordsMap();
+		String recordID = record.getRecordID();
+		recordsMap.put(recordID, record);
+		saveToStorage(StorageType.RECORDS, recordsMap);
+	}
+
+	public  HashMap<String,CheckoutRecord> readRecordsMap() {
+
+		return (HashMap<String, CheckoutRecord>) readFromStorages(StorageType.RECORDS);
+	}
+
+	//implement: other save operations
+	public void saveNewMember(LibraryMember member) {
+		HashMap<String, LibraryMember> mems = getAllMembers();
+		String memberId = member.getMemberId();
+		mems.put(memberId, member);
+		saveToStorage(StorageType.MEMBERS, mems);
+	}
+
 	@Override
 	public void deleteBook(Book book) {
 		HashMap<String, Book> books = getAllBooks();
@@ -175,6 +195,29 @@ public class DataAccessFacade implements DataAccess {
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
 	}
+
+	public static Object readFromStorages(StorageType type) {
+		ObjectInputStream in = null;
+		Object retVal = null;
+		try {
+			Files.createDirectories(FileSystems.getDefault().getPath(OUTPUT_DIR));
+			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+			if (!Files.exists(path)) {
+				TestData.initData();
+			}
+			in = new ObjectInputStream(Files.newInputStream(path));
+			retVal = in.readObject();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(in != null) {
+				try {
+					in.close();
+				} catch(Exception e) {}
+			}
+		}
+		return retVal;
+	}
 	
 	static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
@@ -188,7 +231,7 @@ public class DataAccessFacade implements DataAccess {
 			if(out != null) {
 				try {
 					out.close();
-				} catch(Exception _) {}
+				} catch(Exception e) {}
 			}
 		}
 	}
@@ -207,7 +250,7 @@ public class DataAccessFacade implements DataAccess {
 			if(in != null) {
 				try {
 					in.close();
-				} catch(Exception _) {}
+				} catch(Exception e) {}
 			}
 		}
 		return (HashMap<K, V>) retVal;

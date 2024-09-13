@@ -20,8 +20,10 @@ import business.LibraryMember;
  *
  */
 public class TestData {
-	
-	
+
+	public static void initData(){
+		main(new String[]{});
+	}
 	public static void main(String[] args) {
 //		TestData td = new TestData();
 //		td.bookData();
