@@ -97,6 +97,10 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.bookListMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
         });
+        this.addBookMenuItem.addActionListener((e) -> {
+            // implement here.
+        });
+
         this.memberListMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
             if (!AllMembersWindow.getInstance().isInitialized()) {
