@@ -59,58 +59,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
         setSize(660, 500);
         isInitialized = true;
     }
-
-	private void test() {
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		getContentPane().add(tabbedPane);
-//		getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-
-		JPanel page1 = new JPanel();
-		page1.add(new JLabel("This is Tab 1"));
-
-		// Create the second tab (page2) and add a JLabel to it
-		JPanel page2 = new JPanel();
-		page2.add(new JLabel("This is Tab 2"));
-
-		// Create the third tab (page3) and add a JLabel to it
-		JPanel page3 = new JPanel();
-		page3.add(new JLabel("This is Tab 3"));
-
-		JPanel page4 = new JPanel();
-		page4.add(new JLabel("This is Tab 4"));
-
-		JPanel page5 = new JPanel();
-		page5.add(new JLabel("This is Tab 5"));
-
-		JPanel page6 = new JPanel();
-		page6.add(new JLabel("This is Tab 6"));
-
-		JPanel page7 = new JPanel();
-		page7.add(new JLabel("This is Tab 7"));
-
-		JPanel page8 = new JPanel();
-		page8.add(new JLabel("This is Tab 8"));
-
-		// Add the three tabs to the JTabbedPane
-		tabbedPane.addTab("Add Member", page1);
-		tabbedPane.addTab("Add Book", page2);
-		tabbedPane.addTab("Tab 3", page3);
-		tabbedPane.addTab("Tab 4", page4);
-		tabbedPane.addTab("Tab 5", page5);
-		tabbedPane.addTab("Tab 6", page6);
-		tabbedPane.addTab("Tab 7", page7);
-		tabbedPane.addTab("Tab 8", page8);
-
-//		this.label = new JLabel("Hello World 2");
-//		this.label.setBounds(247, 0, 305, 16);
-//		GridBagConstraints gbc = new GridBagConstraints();
-//		gbc.anchor = GridBagConstraints.WEST;
-//		gbc.insets = new Insets(0, 0, 0, 0);
-//		gbc.gridx = 0;
-//		gbc.gridy = 0;
-//		mainPanel.add(label, gbc);
-	}
     
     private void formatContentPane() {
         mainPanel = new JPanel();
@@ -231,10 +179,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
         @Override
         public void actionPerformed(ActionEvent e) {
             LibrarySystem.hideAllWindows();
-            AllMemberIdsWindow.getInstance().init();
-            AllMemberIdsWindow.getInstance().pack();
-            AllMemberIdsWindow.getInstance().setVisible(true);
-
+            AllMembersWindow.getInstance().init();
+            AllMembersWindow.getInstance().pack();
+            AllMembersWindow.getInstance().setVisible(true);
 
             LibrarySystem.hideAllWindows();
             AllBookIdsWindow.getInstance().init();

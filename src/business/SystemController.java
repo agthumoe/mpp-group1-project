@@ -3,6 +3,7 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
@@ -57,6 +58,11 @@ public class SystemController implements ControllerInterface {
 	public void makeCopy(Book book) {
 		book.addCopy();
 
+	}
+
+	@Override
+	public List<LibraryMember> getAllMembers() {
+		return this.dataAccess.getAllMembers().values().stream().toList();
 	}
 
 	@Override
