@@ -107,6 +107,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
             if (!AllMembersWindow.getInstance().isInitialized()) {
                 AllMembersWindow.getInstance().init();
             }
+            AllMembersWindow.getInstance().loadData();
             AllMembersWindow.getInstance().setVisible(true);
         });
         this.addMemberMenuItem.addActionListener((e) -> {
