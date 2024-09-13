@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -32,7 +34,6 @@ public class LoginWindow extends JFrame implements LibWindow {
     private JPanel upperHalf;
     private JPanel middleHalf;
     private JPanel lowerHalf;
-    private JPanel container;
 
     private JPanel topPanel;
     private JPanel middlePanel;
@@ -44,7 +45,6 @@ public class LoginWindow extends JFrame implements LibWindow {
     private JTextField password;
     private JLabel label;
     private JButton loginButton;
-    private JButton logoutButton;
     private final ControllerInterface controller;
 
     /* This class is a singleton */
@@ -67,12 +67,6 @@ public class LoginWindow extends JFrame implements LibWindow {
         isInitialized = val;
     }
 
-    private JTextField messageBar = new JTextField();
-
-    public void clear() {
-        messageBar.setText("");
-    }
-
     public void init() {
         mainPanel = new JPanel();
         defineUpperHalf();
@@ -89,8 +83,6 @@ public class LoginWindow extends JFrame implements LibWindow {
         isInitialized(true);
         pack();
         //setSize(660, 500);
-
-
     }
 
     private void defineUpperHalf() {
@@ -103,7 +95,6 @@ public class LoginWindow extends JFrame implements LibWindow {
         upperHalf.add(topPanel, BorderLayout.NORTH);
         upperHalf.add(middlePanel, BorderLayout.CENTER);
         upperHalf.add(lowerPanel, BorderLayout.SOUTH);
-
     }
 
     private void defineMiddleHalf() {
@@ -113,7 +104,6 @@ public class LoginWindow extends JFrame implements LibWindow {
         s.setOrientation(SwingConstants.HORIZONTAL);
         //middleHalf.add(Box.createRigidArea(new Dimension(0,50)));
         middleHalf.add(s, BorderLayout.SOUTH);
-
     }
 
     private void defineLowerHalf() {
@@ -124,7 +114,6 @@ public class LoginWindow extends JFrame implements LibWindow {
         JButton backButton = new JButton("<= Back to Main");
         addBackButtonListener(backButton);
         lowerHalf.add(backButton);
-
     }
 
     private void defineTopPanel() {
@@ -136,7 +125,6 @@ public class LoginWindow extends JFrame implements LibWindow {
         intPanel.add(loginLabel, BorderLayout.CENTER);
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(intPanel);
-
     }
 
 
@@ -163,7 +151,7 @@ public class LoginWindow extends JFrame implements LibWindow {
         topText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         bottomText.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
-        username = new JTextField(10);
+        this.username = new JTextField(10);
         label = new JLabel("Username");
         label.setFont(Util.makeSmallFont(label.getFont()));
         topText.add(username);
@@ -196,27 +184,32 @@ public class LoginWindow extends JFrame implements LibWindow {
 
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             LibrarySystem.getInstance().setVisible(true);
         });
     }
 
-    private void reset() {
+    public void reset() {
         this.username.setText("");
         this.password.setText("");
     }
 
     private void addLoginButtonListener(JButton butn) {
-        butn.addActionListener(evt -> {
-            try {
-                Auth auth = this.controller.login(this.username.getText(), this.password.getText());
-                LibrarySystem.getInstance().updateAuth(auth);
-                JOptionPane.showMessageDialog(this, "Successful Login");
-                LibrarySystem.hideAllWindows();
-                LibrarySystem.getInstance().setVisible(true);
-                this.reset();
-            } catch (LoginException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage());
+        butn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    String u = username.getText();
+                    String p = password.getText();
+                    Auth auth = controller.login(u, p);
+                    SystemController.setCurrentAuth(auth);
+                    JOptionPane.showMessageDialog(LoginWindow.this, "Successful Login");
+                    Util.hideAllWindows();
+                    LibrarySystem.getInstance().setVisible(true);
+                    reset();
+                } catch (LoginException e) {
+                    JOptionPane.showMessageDialog(LoginWindow.this, e.getMessage());
+                }
             }
         });
     }
