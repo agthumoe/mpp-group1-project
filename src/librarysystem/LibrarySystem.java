@@ -113,6 +113,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		this.bookListMenuItem.addActionListener(new AllBookIdsListener());
         this.memberListMenuItem.addActionListener(new AllMemberIdsListener());
         this.addMemberMenuItem.addActionListener(new AddMemberListener());
+        this.addBookMenuItem.addActionListener(new AddBookListener());
         this.bookMenu.add(this.bookListMenuItem);
 		this.bookMenu.add(this.addBookMenuItem);
 
@@ -235,8 +236,25 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
 
 		}
+    }
 
-	}
+    class AddBookListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            LibrarySystem.hideAllWindows();
+            AddBookWindow.getInstance().init();
+            AddBookWindow.getInstance().pack();
+            AddBookWindow.getInstance().setVisible(true);
+
+            LibrarySystem.hideAllWindows();
+            AddBookWindow.getInstance().init();
+            AddBookWindow.getInstance().pack();
+            AddBookWindow.getInstance().setSize(400,600);
+            Util.centerFrameOnDesktop(AddBookWindow.getInstance());
+            AddBookWindow.getInstance().setVisible(true);
+        }
+    }
 
     @Override
     public void isInitialized(boolean val) {
