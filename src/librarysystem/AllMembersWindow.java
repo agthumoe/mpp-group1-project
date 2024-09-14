@@ -4,15 +4,10 @@ import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
-import java.awt.GridBagConstraints;
-import javax.swing.JTable;
-import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,24 +41,18 @@ public class AllMembersWindow extends MenusWindow {
 		this.tableModel = new ImmutableTableModel(columnNames, 0);
 		this.table = new JTable(this.tableModel);
 		JScrollPane scrollPanel = new JScrollPane(table);
-		scrollPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		scrollPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 		getContentPane().add(scrollPanel);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] {10, 100, 487, 100, 10};
-		gbl_panel.rowHeights = new int[]{10, 23, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
-
-		btnAddMember = new JButton("Add Member");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton.gridx = 3;
-		gbc_btnNewButton.gridy = 1;
-		panel.add(btnAddMember, gbc_btnNewButton);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+		this.btnAddMember = new JButton("Add Member");
+		this.btnBackToMainMenu = new JButton("Back to Main Menu");
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		panel.add(btnBackToMainMenu);
+		panel.add(Box.createHorizontalGlue());
+		panel.add(this.btnAddMember);
 		this.btnAddMember.addActionListener((e) -> {
 			Util.hideAllWindows();
 			if(!AddMemberWindow.getInstance().isInitialized()) {
@@ -72,12 +61,6 @@ public class AllMembersWindow extends MenusWindow {
 			AddMemberWindow.getInstance().setVisible(true);
 			AddMemberWindow.getInstance().reset();
 		});
-		btnBackToMainMenu = new JButton("Back to Main Menu");
-		GridBagConstraints gbc_btnBackToMainMenu = new GridBagConstraints();
-		gbc_btnBackToMainMenu.fill = GridBagConstraints.BOTH;
-		gbc_btnBackToMainMenu.gridx = 1;
-		gbc_btnBackToMainMenu.gridy = 1;
-		panel.add(btnBackToMainMenu, gbc_btnBackToMainMenu);
 	}
 
 	public void loadData() {
