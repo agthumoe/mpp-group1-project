@@ -34,8 +34,6 @@ public class TestData {
         da.loadRecordMap(new ArrayList<>());
     }
 
-
-
     ///create books
     public void bookData() {
         allBooks.get(0).addCopy();

@@ -11,7 +11,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
     protected JPanel mainPanel;
     private JMenuBar menuBar;
     private JMenu bookMenu, memberMenu, checkoutRecordMenu, accountMenu;
-    private JMenuItem loginMenuItem, logoutMenuItem, accountDetailsMenuItem, bookListMenuItem, memberListMenuItem, addMemberMenuItem, addBookMenuItem, addCheckoutRecordMenuItem;
+    private JMenuItem loginMenuItem, logoutMenuItem, accountDetailsMenuItem, bookListMenuItem, memberListMenuItem, addMemberMenuItem, addBookMenuItem, addCheckoutRecordMenuItem, addAuthorMenuItem;
 
     @Override
     public void init() {
@@ -33,8 +33,10 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
             if (Auth.ADMIN.equals(auth)) {
                 this.bookMenu.setEnabled(true);
                 this.memberMenu.setEnabled(true);
+                this.checkoutRecordMenu.setEnabled(false);
                 this.addMemberMenuItem.setEnabled(true);
                 this.addBookMenuItem.setEnabled(true);
+                this.addAuthorMenuItem.setEnabled(true);
                 this.addCheckoutRecordMenuItem.setEnabled(false);
             } else if (Auth.LIBRARIAN.equals(auth)) {
                 this.bookMenu.setEnabled(true);
@@ -42,12 +44,15 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
                 this.checkoutRecordMenu.setEnabled(true);
                 this.addMemberMenuItem.setEnabled(false);
                 this.addBookMenuItem.setEnabled(false);
+                this.addAuthorMenuItem.setEnabled(false);
+                this.addCheckoutRecordMenuItem.setEnabled(true);
             } else if (Auth.BOTH.equals(auth)) {
                 this.bookMenu.setEnabled(true);
                 this.memberMenu.setEnabled(true);
                 this.checkoutRecordMenu.setEnabled(true);
-                this.addBookMenuItem.setEnabled(true);
                 this.addMemberMenuItem.setEnabled(true);
+                this.addBookMenuItem.setEnabled(true);
+                this.addAuthorMenuItem.setEnabled(true);
                 this.addCheckoutRecordMenuItem.setEnabled(true);
             } else if (auth == null) {
                 this.loginMenuItem.setEnabled(true);
@@ -81,6 +86,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.accountDetailsMenuItem = new JMenuItem("Account Details");
         this.bookListMenuItem = new JMenuItem("List All Book");
         this.addBookMenuItem = new JMenuItem("Add New Book");
+        this.addAuthorMenuItem = new JMenuItem("Add Author");
         this.addMemberMenuItem = new JMenuItem("Add New Member");
         this.addCheckoutRecordMenuItem = new JMenuItem("Add Checkout Record");
         this.memberListMenuItem = new JMenuItem("List All Members");
@@ -96,6 +102,10 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.logoutMenuItem.addActionListener((evt) -> {
             SystemController.setCurrentAuth(null);
             JOptionPane.showMessageDialog(this, "Logout Successful");
+        });
+        this.addAuthorMenuItem.addActionListener((e) -> {
+            JDialog dialog = new AddAuthorDialogBox();
+            dialog.setVisible(true);
         });
         this.bookListMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
@@ -132,6 +142,8 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.bookMenu.add(this.bookListMenuItem);
         this.bookMenu.add(this.addBookMenuItem);
+        this.bookMenu.addSeparator();
+        this.bookMenu.add(this.addAuthorMenuItem);
         this.addBookMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
             if (!AddBookWindow.getInstance().isInitialized()) {
@@ -152,6 +164,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
 
         this.accountMenu.add(this.loginMenuItem);
         this.accountMenu.add(this.accountDetailsMenuItem);
+        this.accountMenu.addSeparator();
         this.accountMenu.add(this.logoutMenuItem);
 
         this.checkoutRecordMenu.add(this.addCheckoutRecordMenuItem);
