@@ -80,11 +80,11 @@ public class SystemController implements ControllerInterface {
 
         Book book = books.get(isbn);
         if (!book.isAvailable()) {
-            throw new BookNotFoundException("Book not found");
+            throw new BookNotFoundException("Book copy is not available.");
         }
         Optional<BookCopy> copy = book.getNextAvailableCopy();
         if (copy.isEmpty()) {
-            throw new BookNotFoundException("Book copy not available");
+            throw new BookNotFoundException("Book copy is not available");
         }
         LibraryMember member = members.get(memberId);
 
@@ -99,7 +99,7 @@ public class SystemController implements ControllerInterface {
 
     @Override
     public void makeCopy(Book book, int numberOfCopies) {
-        for(int i = 0; i < numberOfCopies; i++) {
+        for (int i = 0; i < numberOfCopies; i++) {
             book.addCopy();
         }
         this.dataAccess.saveBook(book);

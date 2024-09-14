@@ -287,9 +287,9 @@ class BackgroundPanel extends JPanel {
 
     private BufferedImage blurImage(BufferedImage image) {
         float[] matrix = {
-                1/16f, 2/16f, 1/16f,
-                2/16f, 4/16f, 2/16f,
-                1/16f, 2/16f, 1/16f
+                1 / 16f, 2 / 16f, 1 / 16f,
+                2 / 16f, 4 / 16f, 2 / 16f,
+                1 / 16f, 2 / 16f, 1 / 16f
         };
         BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix), ConvolveOp.EDGE_NO_OP, null);
         return op.filter(image, null);

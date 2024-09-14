@@ -81,12 +81,12 @@ public class AddMemberWindow extends MenusWindow {
         streetLabel.setFont(labelFont);
         gbc.gridx = 0;
         gbc.gridy = 3;
-        panel.add(streetLabel,gbc);
+        panel.add(streetLabel, gbc);
 
         streetField = new JTextField(20);
         gbc.gridx = 1;
         gbc.gridy = 3;
-        panel.add(streetField,gbc);
+        panel.add(streetField, gbc);
 
         JLabel cityLabel = new JLabel("City:");
         cityLabel.setFont(labelFont);
@@ -160,8 +160,9 @@ public class AddMemberWindow extends MenusWindow {
                 String zip = Util.isNumericString(zipField.getText(), 5, 5, "Zip code");
                 String telephone = Util.isRequired(telephoneField.getText(), "Telephone");
 
-                controller.addMember(new LibraryMember(Util.getRandom(), firstName, lastName, telephone, new Address(street, city, state, zip)));
-                JOptionPane.showMessageDialog(AddMemberWindow.this, "Member added successfully.");
+                String id = Util.getRandom();
+                controller.addMember(new LibraryMember(id, firstName, lastName, telephone, new Address(street, city, state, zip)));
+                JOptionPane.showMessageDialog(AddMemberWindow.this, "New Member ID: " + id + ", added successfully.");
                 this.reset();
             } catch (ValidationException exception) {
                 JOptionPane.showMessageDialog(AddMemberWindow.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

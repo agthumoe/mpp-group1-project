@@ -47,7 +47,7 @@ public class AllCheckoutRecordWindow extends MenusWindow {
         this.setTitle("Checkout Records");
         Font headerFont = new Font("Arial", Font.BOLD, 14);
         getContentPane().setLayout(new BorderLayout(0, 0));
-        String[] columnNames = {"Record ID", "Member ID", "Member Name", "Date of Checkout", "Due Date", "Book Title", "Copy Number"};
+        String[] columnNames = {"ISBN", "Book Title", "Member ID", "Member Name", "Date of Checkout", "Due Date", "Copy Number"};
         this.tableModel = new ImmutableTableModel(columnNames, 0);
         this.table = new JTable(this.tableModel);
         this.table.setRowHeight(30);
@@ -88,9 +88,10 @@ public class AllCheckoutRecordWindow extends MenusWindow {
         List<CheckoutRecord> records = this.controller.getAllCheckoutRecords();
         for (CheckoutRecord record : records) {
             for (RecordEntry entry : record.getEntries()) {
-                String[] row = new String[]{record.getRecordID(), record.getMember().getMemberId(), record.getMember().getFirstName() + " " + record.getMember().getLastName(),
+                String[] row = new String[]{entry.getBookCopy().getBook().getIsbn(), entry.getBookCopy().getBook().getTitle(),
+                        record.getMember().getMemberId(), record.getMember().getFirstName() + " " + record.getMember().getLastName(),
                         entry.getDateOfCheckout().format(df), entry.getDueDate().format(df),
-                        entry.getBookCopy().getBook().getTitle(), Integer.toString(entry.getBookCopy().getCopyNum())};
+                        Integer.toString(entry.getBookCopy().getCopyNum())};
                 this.tableModel.addRow(row);
             }
         }

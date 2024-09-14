@@ -180,9 +180,8 @@ public class AddBookWindow extends MenusWindow {
                     int checkoutLength = Util.isNumber(maxCheckoutLengthField.getText(), 1, 100, "Max Checkout Length");
                     int copies = Util.isNumber(copiesField.getText(), 1, 100, "Number of Copies");
                     List<Author> authors = Util.isNotEmpty(authorsList.getSelectedValuesList(), "Authors");
-                    Book b1 = new Book(isbn, title, checkoutLength, authors);
+                    Book b1 = new Book(isbn, title, checkoutLength, authors, copies);
                     controller.addBook(b1);
-                    b1.addCopy(copies);
                     JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
                     reset();
                 } catch (ValidationException exception) {
