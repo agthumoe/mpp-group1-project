@@ -2,30 +2,13 @@ package ui;
 
 import business.Book;
 import business.ControllerInterface;
-import business.LibraryMember;
 import business.SystemController;
+import ui.components.ImmutableTableModel;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.border.Border;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
-import java.awt.GridBagConstraints;
-import javax.swing.JTable;
-import java.awt.Insets;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Member;
+import java.awt.*;
 import java.util.List;
 
 public class AllBooksWindow extends MenusWindow {
@@ -52,7 +35,7 @@ public class AllBooksWindow extends MenusWindow {
     public void formatContentPane() {
         this.setTitle("Library Members");
         getContentPane().setLayout(new BorderLayout(0, 0));
-        String[] columnNames = { "ISBN", "Title", "Max Check-out Length", "Author First Name", "Author Last Name", "Num of Copies"};
+        String[] columnNames = {"ISBN", "Title", "Max Check-out Length", "Author First Name", "Author Last Name", "Num of Copies"};
         this.tableModel = new ImmutableTableModel(columnNames, 0);
         this.table = new JTable(this.tableModel);
         JScrollPane scrollPanel = new JScrollPane(table);
@@ -62,7 +45,7 @@ public class AllBooksWindow extends MenusWindow {
         JPanel panel = new JPanel();
         getContentPane().add(panel, BorderLayout.NORTH);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[] {10, 487, 0, 10};
+        gbl_panel.columnWidths = new int[]{10, 487, 0, 10};
         gbl_panel.rowHeights = new int[]{10, 23, 0};
         gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
         gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
@@ -102,7 +85,7 @@ public class AllBooksWindow extends MenusWindow {
             Util.hideAllWindows();
             AddBookWindow.getInstance().init();
             AddBookWindow.getInstance().pack();
-            AddBookWindow.getInstance().setSize(400,600);
+            AddBookWindow.getInstance().setSize(400, 600);
             Util.centerFrameOnDesktop(AddBookWindow.getInstance());
             AddBookWindow.getInstance().setVisible(true);
 
@@ -114,8 +97,8 @@ public class AllBooksWindow extends MenusWindow {
     private void loadData() {
         List<Book> books = this.controller.getAllBooks();
 
-        for (Book book: books) {
-            String[] row = new String[]{book.getIsbn(), book.getTitle(), String.valueOf(book.getMaxCheckoutLength()), !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getFirstName() :"", !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getLastName() :"", String.valueOf(book.getNumCopies())};
+        for (Book book : books) {
+            String[] row = new String[]{book.getIsbn(), book.getTitle(), String.valueOf(book.getMaxCheckoutLength()), !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getFirstName() : "", !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getLastName() : "", String.valueOf(book.getNumCopies())};
             this.tableModel.addRow(row);
         }
     }

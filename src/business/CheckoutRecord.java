@@ -11,8 +11,10 @@ public class CheckoutRecord implements Serializable {
     private List<RecordEntry> entries;
 
     private LibraryMember member;
-    public CheckoutRecord(){
+
+    public CheckoutRecord() {
     }
+
     public CheckoutRecord(String recordID, List<RecordEntry> entries, LibraryMember member) {
         this.recordID = recordID;
         this.entries = entries;

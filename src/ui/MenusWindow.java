@@ -92,7 +92,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.logoutMenuItem.addActionListener((evt) -> {
             SystemController.setCurrentAuth(null);
-            JOptionPane.showMessageDialog(this,"Logout Successful");
+            JOptionPane.showMessageDialog(this, "Logout Successful");
         });
         this.bookListMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
@@ -111,7 +111,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.addMemberMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
-            if(!AddMemberWindow.getInstance().isInitialized()) {
+            if (!AddMemberWindow.getInstance().isInitialized()) {
                 AddMemberWindow.getInstance().init();
             }
             AddMemberWindow.getInstance().setVisible(true);

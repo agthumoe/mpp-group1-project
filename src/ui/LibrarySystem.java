@@ -1,11 +1,10 @@
 package ui;
 
-import java.awt.*;
-
-import javax.swing.*;
-
 import business.ControllerInterface;
 import business.SystemController;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class LibrarySystem extends MenusWindow {
     private static LibrarySystem instance = null;

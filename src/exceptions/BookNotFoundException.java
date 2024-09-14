@@ -8,9 +8,11 @@ public class BookNotFoundException extends RuntimeException implements Serializa
     public BookNotFoundException() {
         super();
     }
+
     public BookNotFoundException(String msg) {
         super(msg);
     }
+
     public BookNotFoundException(Throwable t) {
         super(t);
     }

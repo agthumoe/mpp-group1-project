@@ -1,6 +1,8 @@
 package ui;
 
-import business.*;
+import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
 
 import javax.swing.*;
 
@@ -72,8 +74,8 @@ public class AllCheckoutsWindow extends JFrame {
             try {
                 Book book = controller.checkout(isbn, memberId);
                 JOptionPane.showMessageDialog(AllCheckoutsWindow.this, "Checkout Book successfully.");
-            }catch(Exception ex){
-                JOptionPane.showMessageDialog(this,ex.getMessage(),"Book Checkout Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Book Checkout Error", JOptionPane.ERROR_MESSAGE);
                 return;
 
             }

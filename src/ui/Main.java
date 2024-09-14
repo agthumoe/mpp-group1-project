@@ -1,12 +1,12 @@
 package ui;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
 public class Main {
 
-	public static void main(String[] args) {
-	      EventQueue.invokeLater(() -> {
-			  	LibrarySystem.getInstance().init();
-	         });
-	   }
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            LibrarySystem.getInstance().init();
+        });
+    }
 }

@@ -5,7 +5,8 @@ import business.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddBookWindow extends MenusWindow {
 
@@ -15,6 +16,7 @@ public class AddBookWindow extends MenusWindow {
     private JTextField isbnField, titleField, maxCheckoutLengthField, copiesField, authorFirstNameField, authorLastNameField, authorTelephoneField, authorAddressField, authorBioField;
     private JButton addButton, addAuthorButton, backButton;
     private List<Author> authors;
+
     private AddBookWindow() {
         this.controller = SystemController.getInstance();
     }
