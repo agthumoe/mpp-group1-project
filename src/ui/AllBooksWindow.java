@@ -3,6 +3,7 @@ package ui;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import ui.components.BackToMainMenuButton;
 import ui.components.ImmutableTableModel;
 
 import javax.swing.*;
@@ -44,59 +45,27 @@ public class AllBooksWindow extends MenusWindow {
 
         JPanel panel = new JPanel();
         getContentPane().add(panel, BorderLayout.NORTH);
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{10, 487, 0, 10};
-        gbl_panel.rowHeights = new int[]{10, 23, 0};
-        gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-        panel.setLayout(gbl_panel);
-
-        btnBackButton = new JButton("Back to Main");
-        GridBagConstraints gbc_btnBackButton = new GridBagConstraints();
-        gbc_btnBackButton.fill = GridBagConstraints.WEST;
-        gbc_btnBackButton.gridx = 0;
-        gbc_btnBackButton.gridy = 0;
-        panel.add(btnBackButton, gbc_btnBackButton);
-
-        btnBackButton.addActionListener(e -> {
-            Util.hideAllWindows();
-            LibrarySystem.getInstance().setVisible(true);
-            this.setVisible(false);
-        });
-
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         btnNewButton = new JButton("Add Book");
-        GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-        gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-        gbc_btnNewButton.fill = GridBagConstraints.EAST;
-        gbc_btnNewButton.gridx = 1;
-        gbc_btnNewButton.gridy = 0;
-        panel.add(btnNewButton, gbc_btnNewButton);
+        btnBackButton = new BackToMainMenuButton();
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.add(btnBackButton);
+        panel.add(Box.createHorizontalGlue());
+        panel.add(btnNewButton);
 
         btnNewButton.addActionListener(e -> {
             Util.hideAllWindows();
-            LibrarySystem.getInstance().setVisible(true);
-            this.setVisible(false);
-
-            Util.hideAllWindows();
-            AddBookWindow.getInstance().init();
-            AddBookWindow.getInstance().pack();
+            if (!AddBookWindow.getInstance().isInitialized()) {
+                AddBookWindow.getInstance().init();
+            }
             AddBookWindow.getInstance().setVisible(true);
-
-            Util.hideAllWindows();
-            AddBookWindow.getInstance().init();
-            AddBookWindow.getInstance().pack();
-            AddBookWindow.getInstance().setSize(400, 600);
-            Util.centerFrameOnDesktop(AddBookWindow.getInstance());
-            AddBookWindow.getInstance().setVisible(true);
-
+            AddBookWindow.getInstance().reset();
         });
-
-        this.loadData();
     }
 
-    private void loadData() {
+    public void loadData() {
+        this.tableModel.setRowCount(0);
         List<Book> books = this.controller.getAllBooks();
-
         for (Book book : books) {
             String[] row = new String[]{book.getIsbn(), book.getTitle(), String.valueOf(book.getMaxCheckoutLength()), !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getFirstName() : "", !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getLastName() : "", String.valueOf(book.getNumCopies())};
             this.tableModel.addRow(row);

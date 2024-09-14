@@ -18,6 +18,9 @@ public final class Util {
             LibrarySystem.getInstance(),
             LoginWindow.getInstance(),
             AllMembersWindow.getInstance(),
+            AddMemberWindow.getInstance(),
+            AllBooksWindow.getInstance(),
+            AddBookWindow.getInstance(),
     };
 
     public static void hideAllWindows() {

@@ -15,7 +15,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
 
     @Override
     public void init() {
-        setPreferredSize(new Dimension(660, 500));
+        setPreferredSize(new Dimension(800, 600));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.formatMenus();
         this.formatContentPane();
@@ -96,9 +96,19 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.bookListMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
+            if (!AllBooksWindow.getInstance().isInitialized()) {
+                AllBooksWindow.getInstance().init();
+            }
+            AllBooksWindow.getInstance().loadData();
+            AllBooksWindow.getInstance().setVisible(true);
         });
         this.addBookMenuItem.addActionListener((e) -> {
-            // implement here.
+            Util.hideAllWindows();
+            if (!AddBookWindow.getInstance().isInitialized()) {
+                AddBookWindow.getInstance().init();
+            }
+            AddBookWindow.getInstance().setVisible(true);
+            AddBookWindow.getInstance().reset();
         });
 
         this.memberListMenuItem.addActionListener((e) -> {

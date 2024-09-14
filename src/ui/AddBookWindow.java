@@ -1,6 +1,7 @@
 package ui;
 
 import business.*;
+import ui.components.BackToMainMenuButton;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -115,7 +116,7 @@ public class AddBookWindow extends MenusWindow {
         addButton.setBounds(140, 380, 120, 25);
         panel.add(addButton);
 
-        backButton = new JButton("Back to Main");
+        backButton = new BackToMainMenuButton();
         backButton.setBounds(140, 420, 120, 25);
         panel.add(backButton);
 
@@ -142,15 +143,6 @@ public class AddBookWindow extends MenusWindow {
                 } else {
                 }
             }
-        });
-
-        backButton.addActionListener(e -> {
-            Util.hideAllWindows();
-            if (!LibrarySystem.getInstance().isInitialized()) {
-                LibrarySystem.getInstance().init();
-            }
-            LibrarySystem.getInstance().setVisible(true);
-            this.setVisible(false);
         });
     }
 
