@@ -49,7 +49,7 @@ final public class Book implements Serializable {
     }
 
     public void addCopy(int numberOfCopies) {
-        for (int i = 0; i < copies.length; ++i) {
+        for (int i = 0; i < numberOfCopies; i++) {
             this.addCopy();
         }
     }
