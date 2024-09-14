@@ -126,4 +126,14 @@ public class SystemController implements ControllerInterface {
         retval.addAll(this.dataAccess.getAllBooks().keySet());
         return retval;
     }
+
+    @Override
+    public List<Author> getAllAuthors() {
+        return this.dataAccess.getAllAuthors().values().stream().toList();
+    }
+
+    @Override
+    public void addAuthor(Author author) {
+        this.dataAccess.saveAuthor(author);
+    }
 }

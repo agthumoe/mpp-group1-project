@@ -24,15 +24,14 @@ public class TestData {
     }
 
     public static void main(String[] args) {
-//		TestData td = new TestData();
-//		td.bookData();
-//		td.libraryMemberData();
-//		td.userData();
+        TestData td = new TestData();
+        td.bookData();
+        td.libraryMemberData();
+        td.userData();
+        td.authorData();
         DataAccess da = DataAccessFacade.getInstance();
-//		System.out.println(da.readBooksMap());
-//		System.out.println(da.readUserMap());
-        da.saveBook(new Book("99-11111", "Java 8", 3, new ArrayList<>()));
         System.out.println(da.getAllBooks());
+        System.out.println(da.getAllUsers());
     }
 
     ///create books
@@ -64,6 +63,10 @@ public class TestData {
         members.add(libraryMember);
 
         DataAccessFacade.loadMemberMap(members);
+    }
+
+    public void authorData() {
+        DataAccessFacade.loadAuthorMap(allAuthors);
     }
 
     ///////////// DATA //////////////

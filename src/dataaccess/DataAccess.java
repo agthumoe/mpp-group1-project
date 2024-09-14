@@ -1,5 +1,6 @@
 package dataaccess;
 
+import business.Author;
 import business.Book;
 import business.CheckoutRecord;
 import business.LibraryMember;
@@ -40,4 +41,8 @@ public interface DataAccess {
     public void saveNewRecord(CheckoutRecord record);
 
     public void saveNewMember(LibraryMember member);
+
+    HashMap<String, Author> getAllAuthors();
+
+    void saveAuthor(Author author);
 }

@@ -48,6 +48,11 @@ final public class Book implements Serializable {
         copies = newArr;
     }
 
+    public void addCopy(int numberOfCopies) {
+        for (int i = 0; i < copies.length; ++i) {
+            this.addCopy();
+        }
+    }
 
     @Override
     public boolean equals(Object ob) {

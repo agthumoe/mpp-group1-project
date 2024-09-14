@@ -1,12 +1,15 @@
 package ui;
 
-import business.*;
+import business.Author;
+import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
 import ui.components.BackToMainMenuButton;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddBookWindow extends MenusWindow {
@@ -14,9 +17,12 @@ public class AddBookWindow extends MenusWindow {
     private static AddBookWindow instance;
     private final ControllerInterface controller;
 
-    private JTextField isbnField, titleField, maxCheckoutLengthField, copiesField, authorFirstNameField, authorLastNameField, authorTelephoneField, authorAddressField, authorBioField;
+    private JTextField isbnField, titleField, maxCheckoutLengthField, copiesField;
     private JButton addButton, addAuthorButton, backButton;
     private List<Author> authors;
+    private JPanel panel;
+    private JList<Author> authorsList;
+    private DefaultListModel<Author> authorsModelList;
 
     private AddBookWindow() {
         this.controller = SystemController.getInstance();
@@ -29,96 +35,113 @@ public class AddBookWindow extends MenusWindow {
         return instance;
     }
 
+    public void loadAuthors() {
+        this.authors = this.controller.getAllAuthors();
+        this.authorsModelList.clear();
+        this.authorsModelList.addAll(this.authors);
+    }
+
+    private void renderLabelAndText(JLabel label, JTextField field, int y) {
+        GridBagConstraints labelGbc = new GridBagConstraints();
+        labelGbc.ipadx = 10;
+        labelGbc.ipady = 10;
+        labelGbc.gridx = 0;
+        labelGbc.gridy = y;
+        labelGbc.anchor = GridBagConstraints.EAST;
+        this.panel.add(label, labelGbc);
+        GridBagConstraints fieldGbc = new GridBagConstraints();
+        fieldGbc.insets = new Insets(10, 10, 10, 10);
+        fieldGbc.gridx = 1;
+        fieldGbc.gridy = y;
+        this.panel.add(field, fieldGbc);
+    }
+
+    private void renderLabelAndText(JLabel label, JList<Author> field, int y) {
+        field.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                Author author = (Author) value;
+                String fullName = author.getFirstName() + " " + author.getLastName();
+                return super.getListCellRendererComponent(list, fullName, index, isSelected, cellHasFocus);
+            }
+        });
+        GridBagConstraints labelGbc = new GridBagConstraints();
+        labelGbc.ipadx = 10;
+        labelGbc.ipady = 10;
+        labelGbc.gridx = 0;
+        labelGbc.gridy = y;
+        labelGbc.anchor = GridBagConstraints.EAST;
+        this.panel.add(label, labelGbc);
+        GridBagConstraints fieldGbc = new GridBagConstraints();
+        fieldGbc.insets = new Insets(10, 10, 10, 10);
+        fieldGbc.gridx = 1;
+        fieldGbc.gridy = y;
+        fieldGbc.fill = GridBagConstraints.HORIZONTAL;
+        JScrollPane scrollPane = new JScrollPane(field);
+        this.panel.add(scrollPane, fieldGbc);
+    }
+
     @Override
     public void formatContentPane() {
         setTitle("Add Book");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        authors = new ArrayList<>();
-
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
+        this.panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
 
         JLabel isbnLabel = new JLabel("ISBN:");
-        isbnLabel.setBounds(10, 20, 80, 25);
-        panel.add(isbnLabel);
-
         isbnField = new JTextField(20);
-        isbnField.setBounds(100, 20, 165, 25);
-        panel.add(isbnField);
+        this.renderLabelAndText(isbnLabel, isbnField, 0);
 
         JLabel titleLabel = new JLabel("Title:");
-        titleLabel.setBounds(10, 60, 80, 25);
-        panel.add(titleLabel);
-
         titleField = new JTextField(20);
-        titleField.setBounds(100, 60, 165, 25);
-        panel.add(titleField);
+        this.renderLabelAndText(titleLabel, titleField, 1);
 
         JLabel checkoutLengthLabel = new JLabel("Max Checkout Length:");
-        checkoutLengthLabel.setBounds(10, 100, 120, 25);
-        panel.add(checkoutLengthLabel);
-
         maxCheckoutLengthField = new JTextField(20);
-        maxCheckoutLengthField.setBounds(140, 100, 165, 25);
-        panel.add(maxCheckoutLengthField);
+        this.renderLabelAndText(checkoutLengthLabel, maxCheckoutLengthField, 2);
 
         JLabel copiesLabel = new JLabel("Number of Copies:");
-        copiesLabel.setBounds(10, 140, 100, 25);
-        panel.add(copiesLabel);
-
         copiesField = new JTextField(20);
-        copiesField.setBounds(140, 140, 165, 25);
-        panel.add(copiesField);
+        this.renderLabelAndText(copiesLabel, copiesField, 3);
 
-        JLabel authorFirstNameLabel = new JLabel("Author First Name *:");
-        authorFirstNameLabel.setBounds(10, 180, 120, 25);
-        panel.add(authorFirstNameLabel);
+        JLabel authorLabel = new JLabel("Author:");
+        this.authorsModelList = new DefaultListModel<>();
+        this.authorsList = new JList<>(this.authorsModelList);
+        this.authorsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        this.renderLabelAndText(authorLabel, authorsList, 4);
 
-        authorFirstNameField = new JTextField(20);
-        authorFirstNameField.setBounds(140, 180, 165, 25);
-        panel.add(authorFirstNameField);
+        this.addAuthorButton = new JButton("Add Author");
+        GridBagConstraints addAuthorButtonGbc = new GridBagConstraints();
+        addAuthorButtonGbc.insets = new Insets(10, 10, 10, 10);
+        addAuthorButtonGbc.gridx = 1;
+        addAuthorButtonGbc.fill = GridBagConstraints.HORIZONTAL;
+        addAuthorButtonGbc.gridy = 5;
+        panel.add(addAuthorButton, addAuthorButtonGbc);
 
-        JLabel authorLastNameLabel = new JLabel("Author Last Name *:");
-        authorLastNameLabel.setBounds(10, 220, 120, 25);
-        panel.add(authorLastNameLabel);
+        addAuthorButton.addActionListener((e) -> {
+            JDialog dialog = new AddAuthorDialogBox();
+            dialog.setVisible(true);
+        });
 
-        authorLastNameField = new JTextField(20);
-        authorLastNameField.setBounds(140, 220, 165, 25);
-        panel.add(authorLastNameField);
+        GridBagConstraints backGbc = new GridBagConstraints();
+        backGbc.insets = new Insets(0, 10, 0, 10);
+        backGbc.gridx = 0;
+        backGbc.gridy = 6;
+        backGbc.anchor = GridBagConstraints.EAST;
+        GridBagConstraints addGbc = new GridBagConstraints();
+        addGbc.insets = new Insets(10, 10, 10, 10);
+        addGbc.gridx = 1;
+        addGbc.gridy = 6;
+        addGbc.anchor = GridBagConstraints.WEST;
 
-        JLabel authorTelephone = new JLabel("Author Telephone:");
-        authorTelephone.setBounds(10, 260, 120, 25);
-        panel.add(authorTelephone);
-
-        authorTelephoneField = new JTextField(20);
-        authorTelephoneField.setBounds(140, 260, 165, 25);
-        panel.add(authorTelephoneField);
-
-        JLabel authorAddress = new JLabel("Author Address:");
-        authorAddress.setBounds(10, 300, 120, 25);
-        panel.add(authorAddress);
-
-        authorAddressField = new JTextField(20);
-        authorAddressField.setBounds(140, 300, 165, 25);
-        panel.add(authorAddressField);
-
-        JLabel authorBio = new JLabel("Author Bio:");
-        authorBio.setBounds(10, 340, 120, 25);
-        panel.add(authorBio);
-
-        authorBioField = new JTextField(20);
-        authorBioField.setBounds(140, 340, 165, 25);
-        panel.add(authorBioField);
-
-        addButton = new JButton("Add Book");
-        addButton.setBounds(140, 380, 120, 25);
-        panel.add(addButton);
+        addButton = new JButton("Save");
+        panel.add(addButton, addGbc);
 
         backButton = new BackToMainMenuButton();
-        backButton.setBounds(140, 420, 120, 25);
-        panel.add(backButton);
+        panel.add(backButton, backGbc);
 
         add(panel);
 
@@ -130,20 +153,15 @@ public class AddBookWindow extends MenusWindow {
                 String title = titleField.getText();
                 int checkoutLength = Integer.parseInt(maxCheckoutLengthField.getText());
                 int copies = Integer.parseInt(copiesField.getText());
-                Address authorAddress = new Address("1000 N 4th Street", "Fairfield", "Iowa", "52556");
-                Author author = new Author(authorFirstNameField.getText(), authorLastNameField.getText(), authorTelephoneField.getText(), authorAddress, authorBioField.getText());
-                List<Author> authors = new ArrayList<>();
-                authors.add(author);
-                if (!isbn.isEmpty() && !title.isEmpty()) {
-                    Book b1 = new Book(isbn, title, checkoutLength, authors);
-                    controller.addBook(b1);
-                    b1.addCopy();
-                    JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
-                    reset();
-                } else {
-                }
+                List<Author> authors = authorsList.getSelectedValuesList();
+                Book b1 = new Book(isbn, title, checkoutLength, authors);
+                controller.addBook(b1);
+                b1.addCopy(copies);
+                JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
+                reset();
             }
         });
+        this.loadAuthors();
     }
 
     public void reset() {
@@ -151,11 +169,7 @@ public class AddBookWindow extends MenusWindow {
         this.titleField.setText("");
         this.maxCheckoutLengthField.setText("");
         this.copiesField.setText("");
-        this.authorFirstNameField.setText("");
-        this.authorLastNameField.setText("");
-        this.authorTelephoneField.setText("");
-        this.authorAddressField.setText("");
-        this.authorBioField.setText("");
+        this.loadAuthors();
     }
 }
 

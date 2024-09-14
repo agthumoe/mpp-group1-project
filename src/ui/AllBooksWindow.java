@@ -3,6 +3,7 @@ package ui;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
 import ui.components.BackToMainMenuButton;
 import ui.components.ImmutableTableModel;
 
@@ -30,6 +31,14 @@ public class AllBooksWindow extends MenusWindow {
             instance = new AllBooksWindow();
         }
         return instance;
+    }
+
+    @Override
+    public void updateAuth(Auth auth) {
+        super.updateAuth(auth);
+        if (this.isInitialized()) {
+            this.btnNewButton.setEnabled(Auth.BOTH.equals(auth) || Auth.ADMIN.equals(auth));
+        }
     }
 
     @Override
