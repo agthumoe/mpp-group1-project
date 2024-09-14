@@ -109,6 +109,11 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public List<Book> getAllBooks() {
+		return this.dataAccess.getAllBooks().values().stream().toList();
+	}
+
+	@Override
 	public List<String> allMemberIds() {
 		List<String> retval = new ArrayList<>();
 		retval.addAll(this.dataAccess.getAllMembers().keySet());

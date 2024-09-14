@@ -13,6 +13,7 @@ public interface ControllerInterface {
 	Book checkout(String isbn, String memberId);
 	void makeCopy(Book book);
 	List<LibraryMember> getAllMembers();
+	List<Book> getAllBooks();
 	List<String> allMemberIds();
 	List<String> allBookIds();
 
