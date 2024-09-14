@@ -76,7 +76,7 @@ public class AllBooksWindow extends MenusWindow {
         panel.add(btnBackButton, gbc_btnBackButton);
 
         btnBackButton.addActionListener(e -> {
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             LibrarySystem.getInstance().setVisible(true);
             this.setVisible(false);
         });
@@ -90,16 +90,16 @@ public class AllBooksWindow extends MenusWindow {
         panel.add(btnNewButton, gbc_btnNewButton);
 
         btnNewButton.addActionListener(e -> {
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             LibrarySystem.getInstance().setVisible(true);
             this.setVisible(false);
 
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             AddBookWindow.getInstance().init();
             AddBookWindow.getInstance().pack();
             AddBookWindow.getInstance().setVisible(true);
 
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             AddBookWindow.getInstance().init();
             AddBookWindow.getInstance().pack();
             AddBookWindow.getInstance().setSize(400,600);

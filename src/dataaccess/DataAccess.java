@@ -25,4 +25,6 @@ public interface DataAccess {
 	HashMap<String,CheckoutRecord> getAllCheckoutRecords();
 	void saveCheckout(CheckoutRecord checkoutRecord);
 	void updateCheckout(CheckoutRecord checkoutRecord);
+	public void saveNewRecord(CheckoutRecord record);
+	public void saveNewMember(LibraryMember member);
 }

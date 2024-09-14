@@ -9,23 +9,34 @@ import dataaccess.DataAccessFacade;
 
 final public class LibraryMember extends Person implements Serializable {
 	private String memberId;
+	private CheckoutRecord checkoutRecord;
 	
-	public LibraryMember(String memberId, String firstName, String lastName, String telephone, Address address) {
-		super(firstName,lastName, telephone, address);
-		this.memberId = memberId;		
+	public LibraryMember(String memberId, String fname, String lname, String tel,Address add) {
+		super(fname,lname, tel, add);
+		this.memberId = memberId;
+		checkoutRecord = new CheckoutRecord();
+	}
+
+	public CheckoutRecord getCheckoutRecord() {
+		return checkoutRecord;
+	}
+
+	public void setCheckoutRecord(CheckoutRecord checkoutRecord) {
+		this.checkoutRecord = checkoutRecord;
 	}
 
 	public String getMemberId() {
 		return memberId;
 	}
 
-	
-	
 	@Override
 	public String toString() {
-		return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() + 
-				", " + getTelephone() + " " + getAddress();
+		return "LibraryMember{" +
+				"memberId='" + memberId + '\'' +
+				", checkoutRecord=" + checkoutRecord +
+				'}';
 	}
+
 
 	private static final long serialVersionUID = -2226197306790714013L;
 }

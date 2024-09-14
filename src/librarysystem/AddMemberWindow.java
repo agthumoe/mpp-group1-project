@@ -5,20 +5,16 @@ import business.LibraryMember;
 import business.SystemController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.UUID;
 
-public class AddMemberWindow extends JFrame implements LibWindow {
-
-//    private static final long serialVersionUID = 1L;
+public class AddMemberWindow extends MenusWindow {
     private static AddMemberWindow instance;
-    private boolean isInitialized = false;
     private final ControllerInterface controller;
-
     private JTextField memberIdField, firstNameField, lastNameField, streetField, cityField, stateField, zipField, telephoneField;
     private JButton addButton, backButton;
-//    private JLabel statusLabel;
 
     private AddMemberWindow() {
         this.controller = SystemController.getInstance();
@@ -31,11 +27,9 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         return instance;
     }
 
-    public void init() {
+    @Override
+    public void formatContentPane() {
         setTitle("Add Library Member");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
@@ -112,10 +106,6 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         backButton.setBounds(100, 380, 150, 25);
         panel.add(backButton);
 
-//        statusLabel = new JLabel("");
-//        statusLabel.setBounds(10, 420, 300, 25);
-//        panel.add(statusLabel);
-
         add(panel);
 
         addButton.addActionListener(e -> {
@@ -134,15 +124,13 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         });
 
         backButton.addActionListener(e -> {
-            LibrarySystem.hideAllWindows();
+            Util.hideAllWindows();
             LibrarySystem.getInstance().setVisible(true);
             this.setVisible(false);
         });
-
-        isInitialized = true;
     }
 
-    private void reset() {
+    public void reset() {
         this.memberIdField.setText("");
         this.firstNameField.setText("");
         this.lastNameField.setText("");
@@ -151,15 +139,5 @@ public class AddMemberWindow extends JFrame implements LibWindow {
         this.stateField.setText("");
         this.zipField.setText("");
         this.telephoneField.setText("");
-    }
-
-    @Override
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-
-    @Override
-    public void isInitialized(boolean val) {
-        isInitialized = val;
     }
 }

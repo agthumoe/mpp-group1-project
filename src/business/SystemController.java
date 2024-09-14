@@ -3,21 +3,36 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import exceptions.BookNotFoundException;
 import exceptions.LoginException;
+import exceptions.MemberNotFoundException;
+import librarysystem.AddMemberWindow;
+import librarysystem.AllMembersWindow;
+import librarysystem.LibrarySystem;
 
 public class SystemController implements ControllerInterface {
 	public static ControllerInterface instance;
-	public static Auth currentAuth = null;
+	private static Auth currentAuth = null;
 	private final DataAccess dataAccess;
 
 	private SystemController() {
 		this.dataAccess = DataAccessFacade.getInstance();
+	}
+
+	public static Auth getCurrentAuth() {
+		return currentAuth;
+	}
+
+	public static void setCurrentAuth(Auth currentAuth) {
+		SystemController.currentAuth = currentAuth;
+		LibrarySystem.getInstance().updateAuth(currentAuth);
+		AddMemberWindow.getInstance().updateAuth(currentAuth);
+		AllMembersWindow.getInstance().updateAuth(currentAuth);
 	}
 
 	public static synchronized ControllerInterface getInstance() {
@@ -50,7 +65,35 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
-	public void checkout(String isbn, String memberId) {
+	public Book checkout(String isbn, String memberId) {
+
+		HashMap<String, LibraryMember> members= this.dataAccess.getAllMembers();
+		HashMap<String, Book> books= this.dataAccess.getAllBooks();
+		if(!members.containsKey(memberId)) {
+			throw new MemberNotFoundException("Member ID " + memberId + " not found");
+		}
+		if(!books.containsKey(isbn)) {
+			throw new BookNotFoundException("Book ID " + isbn + " not found");
+		}
+
+		Book book = books.get(isbn);
+		if (!book.isAvailable()) {
+			throw new BookNotFoundException("Book copy not available");
+		}
+		BookCopy copy = book.getNextAvailableCopy();
+		LibraryMember member = members.get(memberId);
+
+		if (member.getCheckoutRecord() == null) {
+			member.setCheckoutRecord(new CheckoutRecord());
+		}
+
+		copy.changeAvailability();
+		member.getCheckoutRecord()
+				.addRecordEntry(new RecordEntry(copy));
+		dataAccess.saveNewRecord(member.getCheckoutRecord());
+		dataAccess.updateBook(book);
+		dataAccess.saveNewMember(member);
+		return book;
 
 	}
 
