@@ -7,6 +7,7 @@ import business.SystemController;
 import exceptions.ValidationException;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AddMemberWindow extends MenusWindow {
     private static AddMemberWindow instance;
@@ -28,81 +29,124 @@ public class AddMemberWindow extends MenusWindow {
     @Override
     public void formatContentPane() {
         setTitle("Add Library Member");
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
+        CustomPanel panel = new CustomPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.LIGHT_GRAY);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        Font labelFont = new Font("Arial", Font.BOLD, 12);
+        Font textFieldFont = new Font("Arial", Font.PLAIN, 12);
+
 
         JLabel memberIdLabel = new JLabel("Member ID:");
-        memberIdLabel.setBounds(10, 20, 80, 25);
-        panel.add(memberIdLabel);
+        memberIdLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(memberIdLabel, gbc);
 
         memberIdField = new JTextField(20);
-        memberIdField.setBounds(100, 20, 165, 25);
+        memberIdField.setFont(textFieldFont);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         memberIdField.setEditable(false);
-        panel.add(memberIdField);
+        panel.add(memberIdField, gbc);
 
         JLabel firstNameLabel = new JLabel("First Name:");
-        firstNameLabel.setBounds(10, 60, 80, 25);
-        panel.add(firstNameLabel);
+        firstNameLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(firstNameLabel, gbc);
 
         firstNameField = new JTextField(20);
-        firstNameField.setBounds(100, 60, 165, 25);
-        panel.add(firstNameField);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(firstNameField, gbc);
 
         JLabel lastNameLabel = new JLabel("Last Name:");
-        lastNameLabel.setBounds(10, 100, 80, 25);
-        panel.add(lastNameLabel);
+        lastNameLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(lastNameLabel, gbc);
+
 
         lastNameField = new JTextField(20);
-        lastNameField.setBounds(100, 100, 165, 25);
-        panel.add(lastNameField);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panel.add(lastNameField, gbc);
 
         JLabel streetLabel = new JLabel("Street:");
-        streetLabel.setBounds(10, 140, 80, 25);
-        panel.add(streetLabel);
+        streetLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(streetLabel,gbc);
 
         streetField = new JTextField(20);
-        streetField.setBounds(100, 140, 165, 25);
-        panel.add(streetField);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panel.add(streetField,gbc);
 
         JLabel cityLabel = new JLabel("City:");
-        cityLabel.setBounds(10, 180, 80, 25);
-        panel.add(cityLabel);
+        cityLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(cityLabel, gbc);
 
         cityField = new JTextField(20);
-        cityField.setBounds(100, 180, 165, 25);
-        panel.add(cityField);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        panel.add(cityField, gbc);
 
         JLabel stateLabel = new JLabel("State:");
-        stateLabel.setBounds(10, 220, 80, 25);
-        panel.add(stateLabel);
+        stateLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        panel.add(stateLabel, gbc);
 
         stateField = new JTextField(20);
-        stateField.setBounds(100, 220, 165, 25);
-        panel.add(stateField);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        panel.add(stateField, gbc);
 
         JLabel zipLabel = new JLabel("Zip:");
-        zipLabel.setBounds(10, 260, 80, 25);
-        panel.add(zipLabel);
+        zipLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        panel.add(zipLabel, gbc);
 
         zipField = new JTextField(20);
-        zipField.setBounds(100, 260, 165, 25);
-        panel.add(zipField);
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        panel.add(zipField, gbc);
 
         JLabel phoneLabel = new JLabel("Phone:");
-        phoneLabel.setBounds(10, 300, 80, 25);
-        panel.add(phoneLabel);
+        phoneLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        panel.add(phoneLabel, gbc);
 
         telephoneField = new JTextField(20);
-        telephoneField.setBounds(100, 300, 165, 25);
-        panel.add(telephoneField);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        panel.add(telephoneField, gbc);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
 
         addButton = new JButton("Add Member");
-        addButton.setBounds(100, 340, 150, 25);
-        panel.add(addButton);
+        buttonPanel.add(addButton);
 
         backButton = new JButton("Back to Main");
-        backButton.setBounds(100, 380, 150, 25);
-        panel.add(backButton);
+        buttonPanel.add(backButton);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(buttonPanel, gbc);
 
         add(panel);
 
@@ -140,5 +184,14 @@ public class AddMemberWindow extends MenusWindow {
         this.stateField.setText("");
         this.zipField.setText("");
         this.telephoneField.setText("");
+    }
+}
+
+class CustomPanel extends JPanel {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.WHITE);
+        g.fillRect(10, 10, getWidth() - 20, getHeight() - 20);
     }
 }
