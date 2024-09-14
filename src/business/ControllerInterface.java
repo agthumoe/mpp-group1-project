@@ -14,7 +14,7 @@ public interface ControllerInterface {
 
     Book checkout(String isbn, String memberId);
 
-    void makeCopy(Book book);
+    void makeCopy(Book book, int numberOfCopies);
 
     List<LibraryMember> getAllMembers();
 

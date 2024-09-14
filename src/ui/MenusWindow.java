@@ -11,7 +11,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
     protected JPanel mainPanel;
     private JMenuBar menuBar;
     private JMenu bookMenu, memberMenu, checkoutRecordMenu, accountMenu;
-    private JMenuItem loginMenuItem, logoutMenuItem, accountDetailsMenuItem, bookListMenuItem, memberListMenuItem, addMemberMenuItem, addBookMenuItem, checkoutRecordListMenuItem, addCheckoutRecordMenuItem, addAuthorMenuItem;
+    private JMenuItem loginMenuItem, logoutMenuItem, accountDetailsMenuItem, bookListMenuItem, memberListMenuItem, addMemberMenuItem, addBookMenuItem, checkoutRecordListMenuItem, addCheckoutRecordMenuItem, addAuthorMenuItem, addBookCopiesMenuItem;
 
     @Override
     public void init() {
@@ -36,6 +36,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
                 this.checkoutRecordMenu.setEnabled(false);
                 this.addMemberMenuItem.setEnabled(true);
                 this.addBookMenuItem.setEnabled(true);
+                this.addBookCopiesMenuItem.setEnabled(true);
                 this.addAuthorMenuItem.setEnabled(true);
                 this.addCheckoutRecordMenuItem.setEnabled(false);
                 this.accountDetailsMenuItem.setEnabled(true);
@@ -45,6 +46,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
                 this.checkoutRecordMenu.setEnabled(true);
                 this.addMemberMenuItem.setEnabled(false);
                 this.addBookMenuItem.setEnabled(false);
+                this.addBookCopiesMenuItem.setEnabled(false);
                 this.addAuthorMenuItem.setEnabled(false);
                 this.addCheckoutRecordMenuItem.setEnabled(true);
                 this.accountDetailsMenuItem.setEnabled(true);
@@ -54,6 +56,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
                 this.checkoutRecordMenu.setEnabled(true);
                 this.addMemberMenuItem.setEnabled(true);
                 this.addBookMenuItem.setEnabled(true);
+                this.addBookCopiesMenuItem.setEnabled(true);
                 this.addAuthorMenuItem.setEnabled(true);
                 this.addCheckoutRecordMenuItem.setEnabled(true);
                 this.accountDetailsMenuItem.setEnabled(true);
@@ -89,6 +92,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.accountDetailsMenuItem = new JMenuItem("Account Details");
         this.bookListMenuItem = new JMenuItem("List All Book");
         this.addBookMenuItem = new JMenuItem("Add New Book");
+        this.addBookCopiesMenuItem = new JMenuItem("Add Copies");
         this.addAuthorMenuItem = new JMenuItem("Add Author");
         this.addMemberMenuItem = new JMenuItem("Add New Member");
         this.checkoutRecordListMenuItem = new JMenuItem("List All Checkout Records");
@@ -109,6 +113,10 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.addAuthorMenuItem.addActionListener((e) -> {
             JDialog dialog = new AddAuthorDialogBox();
+            dialog.setVisible(true);
+        });
+        this.addBookCopiesMenuItem.addActionListener((e) -> {
+            JDialog dialog = new AddBookCopyDialogBox();
             dialog.setVisible(true);
         });
         this.bookListMenuItem.addActionListener((e) -> {
@@ -148,6 +156,8 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.bookMenu.add(this.addBookMenuItem);
         this.bookMenu.addSeparator();
         this.bookMenu.add(this.addAuthorMenuItem);
+        this.bookMenu.add(this.addBookCopiesMenuItem);
+
         this.addBookMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
             if (!AddBookWindow.getInstance().isInitialized()) {

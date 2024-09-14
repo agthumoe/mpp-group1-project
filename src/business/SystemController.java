@@ -98,9 +98,11 @@ public class SystemController implements ControllerInterface {
     }
 
     @Override
-    public void makeCopy(Book book) {
-        book.addCopy();
-
+    public void makeCopy(Book book, int numberOfCopies) {
+        for(int i = 0; i < numberOfCopies; i++) {
+            book.addCopy();
+        }
+        this.dataAccess.saveBook(book);
     }
 
     @Override
