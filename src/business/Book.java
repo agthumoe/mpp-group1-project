@@ -97,11 +97,9 @@ final public class Book implements Serializable {
         return isbn;
     }
 
-    public BookCopy getNextAvailableCopy() {
-        Optional<BookCopy> optional
-                = Arrays.stream(copies)
-                .filter(x -> x.isAvailable()).findFirst();
-        return optional.isPresent() ? optional.get() : null;
+    public Optional<BookCopy> getNextAvailableCopy() {
+        return Arrays.stream(copies)
+        .filter(BookCopy::isAvailable).findFirst();
     }
 
     public BookCopy getCopy(int copyNum) {
@@ -116,6 +114,4 @@ final public class Book implements Serializable {
     public int getMaxCheckoutLength() {
         return maxCheckoutLength;
     }
-
-
 }

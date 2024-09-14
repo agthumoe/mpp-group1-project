@@ -1,23 +1,25 @@
 package business;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 final public class LibraryMember extends Person implements Serializable {
     private String memberId;
-    private CheckoutRecord checkoutRecord;
+    private List<CheckoutRecord> checkoutRecords;
 
     public LibraryMember(String memberId, String fname, String lname, String tel, Address add) {
         super(fname, lname, tel, add);
         this.memberId = memberId;
-        checkoutRecord = new CheckoutRecord();
+        this.checkoutRecords = new ArrayList<>();
     }
 
-    public CheckoutRecord getCheckoutRecord() {
-        return checkoutRecord;
+    public List<CheckoutRecord> getCheckoutRecord() {
+        return checkoutRecords;
     }
 
-    public void setCheckoutRecord(CheckoutRecord checkoutRecord) {
-        this.checkoutRecord = checkoutRecord;
+    public void addCheckoutRecord(CheckoutRecord checkoutRecord) {
+        this.checkoutRecords.add(checkoutRecord);
     }
 
     public String getMemberId() {
@@ -28,7 +30,7 @@ final public class LibraryMember extends Person implements Serializable {
     public String toString() {
         return "LibraryMember{" +
                 "memberId='" + memberId + '\'' +
-                ", checkoutRecord=" + checkoutRecord +
+                ", checkoutRecord=" + checkoutRecords +
                 '}';
     }
 

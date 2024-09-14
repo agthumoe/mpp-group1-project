@@ -103,15 +103,16 @@ public class TestData {
             add(new Book("28-12331", "Antartica", 7, Arrays.asList(allAuthors.get(2))));
             add(new Book("99-22223", "Thinking Java", 21, Arrays.asList(allAuthors.get(3))));
             add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));
+            add(new Book("12-87645", "Head First Java", 7, Arrays.asList(allAuthors.get(1))));
         }
     };
 
     @SuppressWarnings("serial")
     List<User> allUsers = new ArrayList<User>() {
         {
-            add(new User("101", "xyz", Auth.LIBRARIAN));
-            add(new User("102", "abc", Auth.ADMIN));
-            add(new User("103", "111", Auth.BOTH));
+            add(new User("101", "password", Auth.LIBRARIAN));
+            add(new User("102", "password", Auth.ADMIN));
+            add(new User("103", "password", Auth.BOTH));
         }
     };
 }

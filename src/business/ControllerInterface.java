@@ -28,4 +28,5 @@ public interface ControllerInterface {
 
     void addAuthor(Author author);
 
+    List<CheckoutRecord> getAllCheckoutRecords();
 }

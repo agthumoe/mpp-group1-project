@@ -21,6 +21,8 @@ public final class Util {
             AddMemberWindow.getInstance(),
             AllBooksWindow.getInstance(),
             AddBookWindow.getInstance(),
+            AllCheckoutRecordWindow.getInstance(),
+            AddCheckoutsWindow.getInstance(),
     };
 
     public static void hideAllWindows() {
@@ -100,7 +102,7 @@ public final class Util {
     }
 
     public static String getRandom() {
-        return String.valueOf(new Random().nextInt(1000000, 999999));
+        return String.valueOf(new Random().nextInt(1000000, 9999999));
     }
 
     public void validate(String input, ValidationRule rule) {

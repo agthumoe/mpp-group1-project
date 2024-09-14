@@ -68,11 +68,6 @@ public class DataAccessFacade implements DataAccess {
     }
 
     @Override
-    public HashMap<String, CheckoutRecord> getAllCheckoutRecords() {
-        return null;
-    }
-
-    @Override
     public void saveBook(Book book) {
         HashMap<String, Book> books = getAllBooks();
         String isbn = book.getIsbn();
@@ -155,6 +150,11 @@ public class DataAccessFacade implements DataAccess {
 
     public HashMap<String, User> getAllUsers() {
         return readFromStorage(StorageType.USERS);
+    }
+
+    @Override
+    public HashMap<String, CheckoutRecord> getAllCheckoutRecords() {
+        return readFromStorage(StorageType.RECORDS);
     }
 
     @Override

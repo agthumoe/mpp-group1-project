@@ -3,24 +3,30 @@ package business;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CheckoutRecord implements Serializable {
     private static final long serialVersionUID = 7508481940058964471L;
 
-    private String recordID = UUID.randomUUID().toString();;
+    private String recordID;
 
-    private List<RecordEntry> entries = new ArrayList<>();;
+    private List<RecordEntry> entries;
 
     private LibraryMember member;
 
     public CheckoutRecord() {
+        this.entries = new ArrayList<RecordEntry>();
+    }
+    public CheckoutRecord(String recordID, LibraryMember member) {
+        this.recordID = recordID;
+        this.setMember(member);
+        this.entries = new ArrayList<>();
     }
 
-    public CheckoutRecord(String recordID, List<RecordEntry> entries, LibraryMember member) {
+    public CheckoutRecord(String recordID, LibraryMember member, RecordEntry entry) {
         this.recordID = recordID;
-        this.entries = entries;
-        this.member = member;
+        this.entries = new ArrayList<>();
+        this.entries.add(entry);
+        this.setMember(member);
     }
 
     public String getRecordID() {
@@ -45,5 +51,6 @@ public class CheckoutRecord implements Serializable {
 
     public void setMember(LibraryMember member) {
         this.member = member;
+        this.member.addCheckoutRecord(this);
     }
 }

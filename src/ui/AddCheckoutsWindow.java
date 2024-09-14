@@ -6,23 +6,23 @@ import business.SystemController;
 
 import javax.swing.*;
 
-public class AllCheckoutsWindow extends MenusWindow {
+public class AddCheckoutsWindow extends MenusWindow {
 
     //    private static final long serialVersionUID = 1L;
-    private static AllCheckoutsWindow instance;
+    private static AddCheckoutsWindow instance;
     private final ControllerInterface controller;
 
     private JTextField memberIdField, isbnField;
     private JButton addButton, backButton;
 //    private JLabel statusLabel;
 
-    private AllCheckoutsWindow() {
+    private AddCheckoutsWindow() {
         this.controller = SystemController.getInstance();
     }
 
-    public synchronized static AllCheckoutsWindow getInstance() {
+    public synchronized static AddCheckoutsWindow getInstance() {
         if (instance == null) {
-            instance = new AllCheckoutsWindow();
+            instance = new AddCheckoutsWindow();
         }
         return instance;
     }
@@ -70,7 +70,7 @@ public class AllCheckoutsWindow extends MenusWindow {
             String isbn = isbnField.getText();
             try {
                 Book book = controller.checkout(isbn, memberId);
-                JOptionPane.showMessageDialog(AllCheckoutsWindow.this, "Checkout Book successfully.");
+                JOptionPane.showMessageDialog(AddCheckoutsWindow.this, "Checkout Book successfully.");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Book Checkout Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -85,7 +85,7 @@ public class AllCheckoutsWindow extends MenusWindow {
         });
     }
 
-    private void reset() {
+    public void reset() {
         this.memberIdField.setText("");
         this.isbnField.setText("");
     }
