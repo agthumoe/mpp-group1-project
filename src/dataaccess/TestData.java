@@ -31,8 +31,10 @@ public class TestData {
         td.authorData();
         DataAccess da = DataAccessFacade.getInstance();
         System.out.println(da.getAllBooks());
-        System.out.println(da.getAllUsers());
+        da.loadRecordMap(new ArrayList<>());
     }
+
+
 
     ///create books
     public void bookData() {

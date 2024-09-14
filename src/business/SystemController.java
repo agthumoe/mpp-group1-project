@@ -66,7 +66,6 @@ public class SystemController implements ControllerInterface {
 
     @Override
     public Book checkout(String isbn, String memberId) {
-
         HashMap<String, LibraryMember> members = this.dataAccess.getAllMembers();
         HashMap<String, Book> books = this.dataAccess.getAllBooks();
         if (!members.containsKey(memberId)) {

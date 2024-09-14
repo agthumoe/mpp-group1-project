@@ -28,35 +28,35 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
 
     public void updateAuth(Auth auth) {
         if (this.isInitialized) {
-//            this.loginMenuItem.setEnabled(false);
-//            this.logoutMenuItem.setEnabled(true);
-//            if (Auth.ADMIN.equals(auth)) {
-//                this.bookMenu.setEnabled(true);
-//                this.memberMenu.setEnabled(true);
-//                this.addMemberMenuItem.setEnabled(true);
-//                this.addBookMenuItem.setEnabled(true);
-//                this.addCheckoutRecordMenuItem.setEnabled(false);
-//            } else if (Auth.LIBRARIAN.equals(auth)) {
-//                this.bookMenu.setEnabled(true);
-//                this.memberMenu.setEnabled(true);
-//                this.checkoutRecordMenu.setEnabled(true);
-//                this.addMemberMenuItem.setEnabled(false);
-//                this.addBookMenuItem.setEnabled(false);
-//            } else if (Auth.BOTH.equals(auth)) {
-//                this.bookMenu.setEnabled(true);
-//                this.memberMenu.setEnabled(true);
-//                this.checkoutRecordMenu.setEnabled(true);
-//                this.addBookMenuItem.setEnabled(true);
-//                this.addMemberMenuItem.setEnabled(true);
-//                this.addCheckoutRecordMenuItem.setEnabled(true);
-//            } else if (auth == null) {
-//                this.loginMenuItem.setEnabled(true);
-//                this.logoutMenuItem.setEnabled(false);
-//                this.accountDetailsMenuItem.setEnabled(false);
-//                this.bookMenu.setEnabled(false);
-//                this.memberMenu.setEnabled(false);
-//                this.checkoutRecordMenu.setEnabled(false);
-//            }
+            this.loginMenuItem.setEnabled(false);
+            this.logoutMenuItem.setEnabled(true);
+            if (Auth.ADMIN.equals(auth)) {
+                this.bookMenu.setEnabled(true);
+                this.memberMenu.setEnabled(true);
+                this.addMemberMenuItem.setEnabled(true);
+                this.addBookMenuItem.setEnabled(true);
+                this.addCheckoutRecordMenuItem.setEnabled(false);
+            } else if (Auth.LIBRARIAN.equals(auth)) {
+                this.bookMenu.setEnabled(true);
+                this.memberMenu.setEnabled(true);
+                this.checkoutRecordMenu.setEnabled(true);
+                this.addMemberMenuItem.setEnabled(false);
+                this.addBookMenuItem.setEnabled(false);
+            } else if (Auth.BOTH.equals(auth)) {
+                this.bookMenu.setEnabled(true);
+                this.memberMenu.setEnabled(true);
+                this.checkoutRecordMenu.setEnabled(true);
+                this.addBookMenuItem.setEnabled(true);
+                this.addMemberMenuItem.setEnabled(true);
+                this.addCheckoutRecordMenuItem.setEnabled(true);
+            } else if (auth == null) {
+                this.loginMenuItem.setEnabled(true);
+                this.logoutMenuItem.setEnabled(false);
+                this.accountDetailsMenuItem.setEnabled(false);
+                this.bookMenu.setEnabled(false);
+                this.memberMenu.setEnabled(false);
+                this.checkoutRecordMenu.setEnabled(false);
+            }
         }
     }
 
@@ -139,6 +139,13 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
             }
             AddBookWindow.getInstance().setVisible(true);
             AddBookWindow.getInstance().reset();
+        });
+        this.addCheckoutRecordMenuItem.addActionListener((e) -> {
+            Util.hideAllWindows();
+            if (!AllCheckoutsWindow.getInstance().isInitialized()) {
+                AllCheckoutsWindow.getInstance().init();
+            }
+            AllCheckoutsWindow.getInstance().setVisible(true);
         });
         this.memberMenu.add(this.memberListMenuItem);
         this.memberMenu.add(this.addMemberMenuItem);

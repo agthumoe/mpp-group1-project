@@ -6,11 +6,10 @@ import business.SystemController;
 
 import javax.swing.*;
 
-public class AllCheckoutsWindow extends JFrame {
+public class AllCheckoutsWindow extends MenusWindow {
 
     //    private static final long serialVersionUID = 1L;
     private static AllCheckoutsWindow instance;
-    private boolean isInitialized = false;
     private final ControllerInterface controller;
 
     private JTextField memberIdField, isbnField;
@@ -28,9 +27,9 @@ public class AllCheckoutsWindow extends JFrame {
         return instance;
     }
 
-    public void init() {
+    @Override
+    public void formatContentPane() {
         setTitle("Book Checkout");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
@@ -42,7 +41,6 @@ public class AllCheckoutsWindow extends JFrame {
 
         memberIdField = new JTextField(20);
         memberIdField.setBounds(100, 20, 165, 25);
-        memberIdField.setEditable(false);
         panel.add(memberIdField);
 
         JLabel isbnLabel = new JLabel("ISBN:");
@@ -50,8 +48,7 @@ public class AllCheckoutsWindow extends JFrame {
         panel.add(isbnLabel);
 
         isbnField = new JTextField(20);
-        isbnField.setBounds(100, 20, 165, 25);
-        isbnField.setEditable(false);
+        isbnField.setBounds(100, 60, 165, 25);
         panel.add(isbnField);
 
         addButton = new JButton("Checkout");
@@ -77,7 +74,6 @@ public class AllCheckoutsWindow extends JFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Book Checkout Error", JOptionPane.ERROR_MESSAGE);
                 return;
-
             }
             this.reset();
         });
@@ -87,22 +83,10 @@ public class AllCheckoutsWindow extends JFrame {
             LibrarySystem.getInstance().setVisible(true);
             this.setVisible(false);
         });
-
-        isInitialized = true;
     }
 
     private void reset() {
         this.memberIdField.setText("");
         this.isbnField.setText("");
     }
-
-
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-
-    public void isInitialized(boolean val) {
-        isInitialized = val;
-    }
-
 }
