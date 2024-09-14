@@ -5,6 +5,7 @@ import business.ControllerInterface;
 import business.SystemController;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class AddCheckoutsWindow extends MenusWindow {
 
@@ -32,32 +33,54 @@ public class AddCheckoutsWindow extends MenusWindow {
         setTitle("Book Checkout");
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
+        CustomPanel panel = new CustomPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.LIGHT_GRAY);
+
+        Font labelFont = new Font("Arial", Font.BOLD, 12);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
 
         JLabel memberIdLabel = new JLabel("Member ID:");
-        memberIdLabel.setBounds(10, 20, 80, 25);
-        panel.add(memberIdLabel);
+        memberIdLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(memberIdLabel, gbc);
 
         memberIdField = new JTextField(20);
-        memberIdField.setBounds(100, 20, 165, 25);
-        panel.add(memberIdField);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        panel.add(memberIdField, gbc);
 
         JLabel isbnLabel = new JLabel("ISBN:");
-        isbnLabel.setBounds(10, 60, 80, 25);
-        panel.add(isbnLabel);
+        isbnLabel.setFont(labelFont);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(isbnLabel, gbc);
 
         isbnField = new JTextField(20);
-        isbnField.setBounds(100, 60, 165, 25);
-        panel.add(isbnField);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(isbnField, gbc);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
 
         addButton = new JButton("Checkout");
-        addButton.setBounds(100, 340, 150, 25);
-        panel.add(addButton);
+        buttonPanel.add(addButton);
 
         backButton = new JButton("Back to Main");
-        backButton.setBounds(100, 380, 150, 25);
-        panel.add(backButton);
+        buttonPanel.add(backButton);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(buttonPanel, gbc);
 
 //        statusLabel = new JLabel("");
 //        statusLabel.setBounds(10, 420, 300, 25);

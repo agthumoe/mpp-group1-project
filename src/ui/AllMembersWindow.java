@@ -54,6 +54,8 @@ public class AllMembersWindow extends MenusWindow {
         this.table.setRowHeight(30);
         this.table.getTableHeader().setFont(headerFont);
         this.table.setDefaultRenderer(Object.class, new GradientTableCellRenderer());
+        table.setSelectionBackground(Color.red);
+        table.setSelectionForeground(Color.red);
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setPreferredSize(new Dimension(tableHeader.getPreferredSize().width, 40));
 

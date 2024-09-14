@@ -6,10 +6,17 @@ import dataaccess.Auth;
 import exceptions.LoginException;
 import ui.components.BackToMainMenuButton;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
+import java.io.File;
+import java.io.IOException;
 
 
 public class LoginWindow extends JFrame implements LibWindow {
@@ -56,21 +63,92 @@ public class LoginWindow extends JFrame implements LibWindow {
     }
 
     public void init() {
-        mainPanel = new JPanel();
-        defineUpperHalf();
-        defineMiddleHalf();
-        defineLowerHalf();
-        BorderLayout bl = new BorderLayout();
-        bl.setVgap(30);
-        mainPanel.setLayout(bl);
 
-        mainPanel.add(upperHalf, BorderLayout.NORTH);
-        mainPanel.add(middleHalf, BorderLayout.CENTER);
-        mainPanel.add(lowerHalf, BorderLayout.SOUTH);
-        getContentPane().add(mainPanel);
+        BackgroundPanel panel = new BackgroundPanel("src/login.png");
+        panel.setLayout(new GridBagLayout());
+
+//        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+
+        // Title label
+        JLabel titleLabel = new JLabel("Login");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(titleLabel, gbc);
+
+        // Username label
+        JLabel usernameLabel = new JLabel("Username:");
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(usernameLabel, gbc);
+
+        // Username text field
+        username = new JTextField(15);
+        username.setFont(new Font("Arial", Font.BOLD, 16));
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(username, gbc);
+
+        // Password label
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(passwordLabel, gbc);
+
+        // Password text field
+        password = new JPasswordField(15);
+        password.setFont(new Font("Arial", Font.BOLD, 16));
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        panel.add(password, gbc);
+
+        // Login button
+        loginButton = new JButton("Login");
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
+        loginButton.setPreferredSize(new Dimension(100, 40));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        addLoginButtonListener(loginButton);
+        panel.add(loginButton, gbc);
+
+        JSeparator separator = new JSeparator();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(separator, gbc);
+
+        // Back button
+        backButton = new BackToMainMenuButton();
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setPreferredSize(new Dimension(100, 40));
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(backButton, gbc);
+
         isInitialized(true);
         pack();
-        //setSize(660, 500);
+
+        add(panel);
+        setSize(660, 500);
+
+//        frame.add(panel);
+//        frame.setVisible(true);
     }
 
     private void defineUpperHalf() {
@@ -191,5 +269,37 @@ public class LoginWindow extends JFrame implements LibWindow {
                 }
             }
         });
+    }
+}
+
+
+class BackgroundPanel extends JPanel {
+    private Image backgroundImage;
+
+    public BackgroundPanel(String fileName) {
+        try {
+            BufferedImage originalImage = ImageIO.read(new File(fileName));
+            backgroundImage = blurImage(originalImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private BufferedImage blurImage(BufferedImage image) {
+        float[] matrix = {
+                1/16f, 2/16f, 1/16f,
+                2/16f, 4/16f, 2/16f,
+                1/16f, 2/16f, 1/16f
+        };
+        BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix), ConvolveOp.EDGE_NO_OP, null);
+        return op.filter(image, null);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 }
