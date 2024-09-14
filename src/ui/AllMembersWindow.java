@@ -1,16 +1,16 @@
-package librarysystem;
+package ui;
 
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
+import ui.components.BackToMainMenuButton;
+import ui.components.ImmutableTableModel;
 
 import javax.swing.*;
 import java.awt.*;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class AllMembersWindow extends MenusWindow {
@@ -48,7 +48,7 @@ public class AllMembersWindow extends MenusWindow {
 		getContentPane().add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		this.btnAddMember = new JButton("Add Member");
-		this.btnBackToMainMenu = new JButton("Back to Main Menu");
+		this.btnBackToMainMenu = new BackToMainMenuButton();
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel.add(btnBackToMainMenu);
 		panel.add(Box.createHorizontalGlue());

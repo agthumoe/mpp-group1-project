@@ -1,9 +1,8 @@
-package librarysystem;
+package ui;
 
 import business.*;
 
 import javax.swing.*;
-import java.util.UUID;
 
 public class AllCheckoutsWindow extends JFrame {
 

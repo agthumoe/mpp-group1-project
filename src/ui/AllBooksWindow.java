@@ -1,4 +1,4 @@
-package librarysystem;
+package ui;
 
 public class AllBooksWindow extends MenusWindow {
     @Override
