@@ -1,0 +1,74 @@
+package ui;
+
+import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
+import ui.components.BackToMainMenuButton;
+import ui.components.ImmutableTableModel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.List;
+
+public class AllBooksWindow extends MenusWindow {
+    private static final long serialVersionUID = -2230098295332595214L;
+
+    private static AllBooksWindow instance;
+    private JTable table;
+    private JButton btnNewButton, btnBackButton;
+    private DefaultTableModel tableModel;
+    private final ControllerInterface controller;
+
+    private AllBooksWindow() {
+        this.controller = SystemController.getInstance();
+    }
+
+    public synchronized static AllBooksWindow getInstance() {
+        if (instance == null) {
+            instance = new AllBooksWindow();
+        }
+        return instance;
+    }
+
+    @Override
+    public void formatContentPane() {
+        this.setTitle("Library Members");
+        getContentPane().setLayout(new BorderLayout(0, 0));
+        String[] columnNames = {"ISBN", "Title", "Max Check-out Length", "Author First Name", "Author Last Name", "Num of Copies"};
+        this.tableModel = new ImmutableTableModel(columnNames, 0);
+        this.table = new JTable(this.tableModel);
+        JScrollPane scrollPanel = new JScrollPane(table);
+        scrollPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        getContentPane().add(scrollPanel);
+
+        JPanel panel = new JPanel();
+        getContentPane().add(panel, BorderLayout.NORTH);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+        btnNewButton = new JButton("Add Book");
+        btnBackButton = new BackToMainMenuButton();
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.add(btnBackButton);
+        panel.add(Box.createHorizontalGlue());
+        panel.add(btnNewButton);
+
+        btnNewButton.addActionListener(e -> {
+            Util.hideAllWindows();
+            if (!AddBookWindow.getInstance().isInitialized()) {
+                AddBookWindow.getInstance().init();
+            }
+            AddBookWindow.getInstance().setVisible(true);
+            AddBookWindow.getInstance().reset();
+        });
+    }
+
+    public void loadData() {
+        this.tableModel.setRowCount(0);
+        List<Book> books = this.controller.getAllBooks();
+        for (Book book : books) {
+            String[] row = new String[]{book.getIsbn(), book.getTitle(), String.valueOf(book.getMaxCheckoutLength()), !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getFirstName() : "", !book.getAuthors().isEmpty() ? book.getAuthors().getFirst().getLastName() : "", String.valueOf(book.getNumCopies())};
+            this.tableModel.addRow(row);
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package librarysystem;
+package ui;
 
 import business.SystemController;
 import dataaccess.Auth;
@@ -15,7 +15,7 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
 
     @Override
     public void init() {
-        setPreferredSize(new Dimension(660, 500));
+        setPreferredSize(new Dimension(800, 600));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.formatMenus();
         this.formatContentPane();
@@ -93,13 +93,23 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         });
         this.logoutMenuItem.addActionListener((evt) -> {
             SystemController.setCurrentAuth(null);
-            JOptionPane.showMessageDialog(this,"Logout Successful");
+            JOptionPane.showMessageDialog(this, "Logout Successful");
         });
         this.bookListMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
+            if (!AllBooksWindow.getInstance().isInitialized()) {
+                AllBooksWindow.getInstance().init();
+            }
+            AllBooksWindow.getInstance().loadData();
+            AllBooksWindow.getInstance().setVisible(true);
         });
         this.addBookMenuItem.addActionListener((e) -> {
-            // implement here.
+            Util.hideAllWindows();
+            if (!AddBookWindow.getInstance().isInitialized()) {
+                AddBookWindow.getInstance().init();
+            }
+            AddBookWindow.getInstance().setVisible(true);
+            AddBookWindow.getInstance().reset();
         });
 
         this.memberListMenuItem.addActionListener((e) -> {
@@ -107,11 +117,12 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
             if (!AllMembersWindow.getInstance().isInitialized()) {
                 AllMembersWindow.getInstance().init();
             }
+            AllMembersWindow.getInstance().loadData();
             AllMembersWindow.getInstance().setVisible(true);
         });
         this.addMemberMenuItem.addActionListener((e) -> {
             Util.hideAllWindows();
-            if(!AddMemberWindow.getInstance().isInitialized()) {
+            if (!AddMemberWindow.getInstance().isInitialized()) {
                 AddMemberWindow.getInstance().init();
             }
             AddMemberWindow.getInstance().setVisible(true);

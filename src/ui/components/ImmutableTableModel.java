@@ -1,4 +1,4 @@
-package librarysystem;
+package ui.components;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.Serial;

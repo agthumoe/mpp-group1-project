@@ -1,9 +1,10 @@
-package librarysystem;
+package ui;
 
-import business.*;
+import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
 
 import javax.swing.*;
-import java.util.UUID;
 
 public class AllCheckoutsWindow extends MenusWindow {
 
@@ -70,8 +71,8 @@ public class AllCheckoutsWindow extends MenusWindow {
             try {
                 Book book = controller.checkout(isbn, memberId);
                 JOptionPane.showMessageDialog(AllCheckoutsWindow.this, "Checkout Book successfully.");
-            }catch(Exception ex){
-                JOptionPane.showMessageDialog(this,ex.getMessage(),"Book Checkout Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Book Checkout Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             this.reset();

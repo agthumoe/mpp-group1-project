@@ -1,14 +1,11 @@
-package librarysystem;
+package ui;
+
 import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.UUID;
 
 public class AddMemberWindow extends MenusWindow {
     private static AddMemberWindow instance;
@@ -118,7 +115,7 @@ public class AddMemberWindow extends MenusWindow {
             String zip = zipField.getText();
             String telephone = telephoneField.getText();
 
-            controller.addMember(new LibraryMember(UUID.randomUUID().toString(), firstName, lastName, telephone, new Address(street, city, state, zip)));
+            controller.addMember(new LibraryMember(Util.getRandom(), firstName, lastName, telephone, new Address(street, city, state, zip)));
             JOptionPane.showMessageDialog(AddMemberWindow.this, "Member added successfully.");
             this.reset();
         });

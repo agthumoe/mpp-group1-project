@@ -8,9 +8,11 @@ public class MemberNotFoundException extends RuntimeException implements Seriali
     public MemberNotFoundException() {
         super();
     }
+
     public MemberNotFoundException(String msg) {
         super(msg);
     }
+
     public MemberNotFoundException(Throwable t) {
         super(t);
     }
