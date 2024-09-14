@@ -24,4 +24,8 @@ public interface ControllerInterface {
 
     List<String> allBookIds();
 
+    List<Author> getAllAuthors();
+
+    void addAuthor(Author author);
+
 }

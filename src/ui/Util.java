@@ -95,7 +95,7 @@ public final class Util {
     }
 
     public static String getRandom(String prefix) {
-        int random = new Random().nextInt(1000000, 999999);
+        int random = new Random().nextInt(1000000, 9999999);
         return prefix + random;
     }
 

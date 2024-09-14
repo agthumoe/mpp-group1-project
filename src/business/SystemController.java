@@ -7,9 +7,7 @@ import dataaccess.User;
 import exceptions.BookNotFoundException;
 import exceptions.LoginException;
 import exceptions.MemberNotFoundException;
-import ui.AddMemberWindow;
-import ui.AllMembersWindow;
-import ui.LibrarySystem;
+import ui.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +31,8 @@ public class SystemController implements ControllerInterface {
         LibrarySystem.getInstance().updateAuth(currentAuth);
         AddMemberWindow.getInstance().updateAuth(currentAuth);
         AllMembersWindow.getInstance().updateAuth(currentAuth);
+        AddBookWindow.getInstance().updateAuth(currentAuth);
+        AllBooksWindow.getInstance().updateAuth(currentAuth);
     }
 
     public static synchronized ControllerInterface getInstance() {
@@ -124,5 +124,15 @@ public class SystemController implements ControllerInterface {
         List<String> retval = new ArrayList<>();
         retval.addAll(this.dataAccess.getAllBooks().keySet());
         return retval;
+    }
+
+    @Override
+    public List<Author> getAllAuthors() {
+        return this.dataAccess.getAllAuthors().values().stream().toList();
+    }
+
+    @Override
+    public void addAuthor(Author author) {
+        this.dataAccess.saveAuthor(author);
     }
 }
