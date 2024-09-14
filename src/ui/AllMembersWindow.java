@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 
@@ -50,12 +51,16 @@ public class AllMembersWindow extends MenusWindow {
         String[] columnNames = {"Member ID", "First Name", "Last Name", "Street", "City", "State", "Zip", "Telephone"};
         this.tableModel = new ImmutableTableModel(columnNames, 0);
         this.table = new JTable(this.tableModel);
-        this.table.setRowHeight(40);
+        this.table.setRowHeight(30);
         this.table.getTableHeader().setFont(headerFont);
         this.table.setDefaultRenderer(Object.class, new GradientTableCellRenderer());
+        table.setSelectionBackground(Color.red);
+        table.setSelectionForeground(Color.red);
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setPreferredSize(new Dimension(tableHeader.getPreferredSize().width, 40));
 
         JScrollPane scrollPanel = new JScrollPane(table);
-        scrollPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
+        scrollPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         getContentPane().add(scrollPanel);
 
         JPanel panel = new JPanel();

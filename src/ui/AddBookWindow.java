@@ -89,26 +89,34 @@ public class AddBookWindow extends MenusWindow {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        this.panel = new JPanel();
+        this.panel = new CustomPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.LIGHT_GRAY);
+
+        Font labelFont = new Font("Arial", Font.BOLD, 12);
 
         JLabel isbnLabel = new JLabel("ISBN:");
+        isbnLabel.setFont(labelFont);
         isbnField = new JTextField(20);
         this.renderLabelAndText(isbnLabel, isbnField, 0);
 
         JLabel titleLabel = new JLabel("Title:");
+        titleLabel.setFont(labelFont);
         titleField = new JTextField(20);
         this.renderLabelAndText(titleLabel, titleField, 1);
 
         JLabel checkoutLengthLabel = new JLabel("Max Checkout Length:");
+        checkoutLengthLabel.setFont(labelFont);
         maxCheckoutLengthField = new JTextField(20);
         this.renderLabelAndText(checkoutLengthLabel, maxCheckoutLengthField, 2);
 
         JLabel copiesLabel = new JLabel("Number of Copies:");
+        copiesLabel.setFont(labelFont);
         copiesField = new JTextField(20);
         this.renderLabelAndText(copiesLabel, copiesField, 3);
 
         JLabel authorLabel = new JLabel("Author:");
+        authorLabel.setFont(labelFont);
         this.authorsModelList = new DefaultListModel<>();
         this.authorsList = new JList<>(this.authorsModelList);
         this.authorsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -138,11 +146,27 @@ public class AddBookWindow extends MenusWindow {
         addGbc.gridy = 6;
         addGbc.anchor = GridBagConstraints.WEST;
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+
         addButton = new JButton("Save");
-        panel.add(addButton, addGbc);
+        buttonPanel.add(addButton);
+//        panel.add(addButton, addGbc);
 
         backButton = new BackToMainMenuButton();
-        panel.add(backButton, backGbc);
+        buttonPanel.add(backButton);
+//        panel.add(backButton, backGbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(buttonPanel, gbc);
 
         add(panel);
 

@@ -27,6 +27,7 @@ public class LibrarySystem extends MenusWindow {
     public void formatContentPane() {
         this.setTitle("Library Management System");
         mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
         mainPanel.setLayout(new GridLayout(1, 1));
         getContentPane().add(mainPanel);
         String currDirectory = System.getProperty("user.dir");

@@ -10,6 +10,7 @@ import ui.components.ImmutableTableModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,13 +46,21 @@ public class AllBooksWindow extends MenusWindow {
     @Override
     public void formatContentPane() {
         this.setTitle("Library Members");
+        Font headerFont = new Font("Arial", Font.BOLD, 14);
         getContentPane().setLayout(new BorderLayout(0, 0));
         String[] columnNames = {"ISBN", "Title", "Max Check-out Length", "Authors", "Num of Copies", ""};
         this.tableModel = new ImmutableTableModel(columnNames, 0);
         this.table = new JTable(this.tableModel);
+        this.table.setRowHeight(30);
+        this.table.getTableHeader().setFont(headerFont);
+        this.table.setDefaultRenderer(Object.class, new GradientTableCellRenderer());
         JScrollPane scrollPanel = new JScrollPane(table);
         scrollPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         getContentPane().add(scrollPanel);
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setPreferredSize(new Dimension(tableHeader.getPreferredSize().width, 40));
+        table.setSelectionBackground(Color.red);
+        table.setSelectionForeground(Color.red);
 
         JPanel panel = new JPanel();
         getContentPane().add(panel, BorderLayout.NORTH);
