@@ -211,6 +211,7 @@ public class DataAccessFacade implements DataAccess {
         memberList.forEach(member -> members.put(member.getMemberId(), member));
         saveToStorage(StorageType.MEMBERS, members);
     }
+
     @Override
     public void loadRecordMap(List<CheckoutRecord> authorList) {
         HashMap<String, CheckoutRecord> authors = new HashMap<String, CheckoutRecord>();

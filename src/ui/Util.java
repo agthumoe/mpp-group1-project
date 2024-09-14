@@ -1,5 +1,7 @@
 package ui;
 
+import exceptions.ValidationException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collections;
@@ -105,7 +107,45 @@ public final class Util {
         return String.valueOf(new Random().nextInt(1000000, 9999999));
     }
 
-    public void validate(String input, ValidationRule rule) {
+    public static String isRequired(String input, String fieldName) {
+        if (input == null || input.isBlank()) {
+            throw new ValidationException(fieldName + " is required");
+        }
+        return input;
+    }
 
+    public static String hasMinMaxString(String input, int min, int max, String fieldName) {
+        if (input == null || input.length() < min || input.length() > max) {
+            throw new ValidationException(fieldName + " must be between: " + min + " and " + max);
+        }
+        return input;
+    }
+
+    public static String isNumericString(String input, int min, int max, String fieldName) {
+        if (input == null || !input.matches("\\d+")) {
+            throw new ValidationException(fieldName + " must be a numeric value");
+        }
+        if (input.length() < min || input.length() > max) {
+            throw new ValidationException(fieldName + " must be between: " + min + " and " + max);
+        }
+        return input;
+    }
+
+    public static int isNumber(String input, int min, int max, String fieldName) {
+        if (input == null || !input.matches("-?\\d+(\\.\\d+)?")) {
+            throw new ValidationException(fieldName + " must be a number");
+        }
+        int value = Integer.parseInt(input);
+        if (value < min || value > max) {
+            throw new ValidationException(fieldName + " must be between: " + min + " and " + max);
+        }
+        return value;
+    }
+
+    public static <T> List<T> isNotEmpty(List<T> list, String fieldName) {
+        if (list == null || list.isEmpty()) {
+            throw new ValidationException(fieldName + " must not be empty or null");
+        }
+        return list;
     }
 }

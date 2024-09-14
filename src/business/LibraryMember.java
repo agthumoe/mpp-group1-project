@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 final public class LibraryMember extends Person implements Serializable {
+    private static final long serialVersionUID = -2226197306790714013L;
+
     private String memberId;
     private List<CheckoutRecord> checkoutRecords;
 
@@ -33,7 +35,4 @@ final public class LibraryMember extends Person implements Serializable {
                 ", checkoutRecord=" + checkoutRecords +
                 '}';
     }
-
-
-    private static final long serialVersionUID = -2226197306790714013L;
 }

@@ -46,7 +46,7 @@ public class AllBooksWindow extends MenusWindow {
     public void formatContentPane() {
         this.setTitle("Library Members");
         getContentPane().setLayout(new BorderLayout(0, 0));
-        String[] columnNames = {"ISBN", "Title", "Max Check-out Length", "Authors", "Num of Copies"};
+        String[] columnNames = {"ISBN", "Title", "Max Check-out Length", "Authors", "Num of Copies", ""};
         this.tableModel = new ImmutableTableModel(columnNames, 0);
         this.table = new JTable(this.tableModel);
         JScrollPane scrollPanel = new JScrollPane(table);
@@ -77,7 +77,7 @@ public class AllBooksWindow extends MenusWindow {
         this.tableModel.setRowCount(0);
         List<Book> books = this.controller.getAllBooks();
         for (Book book : books) {
-            String[] row = new String[]{book.getIsbn(), book.getTitle(), String.valueOf(book.getMaxCheckoutLength()), !book.getAuthors().isEmpty() ? book.getAuthors().stream().map((a) -> a.getFirstName() + " " + a.getLastName()).collect(Collectors.joining(", ")) : "", String.valueOf(book.getNumCopies())};
+            String[] row = new String[]{book.getIsbn(), book.getTitle(), String.valueOf(book.getMaxCheckoutLength()), !book.getAuthors().isEmpty() ? book.getAuthors().stream().map((a) -> a.getFirstName() + " " + a.getLastName()).collect(Collectors.joining(", ")) : "", String.valueOf(book.getNumCopies()), "Add Copy"};
             this.tableModel.addRow(row);
         }
     }

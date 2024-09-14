@@ -4,6 +4,7 @@ import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
+import exceptions.ValidationException;
 
 import javax.swing.*;
 
@@ -106,18 +107,21 @@ public class AddMemberWindow extends MenusWindow {
         add(panel);
 
         addButton.addActionListener(e -> {
-            String memberId = memberIdField.getText();
-            String firstName = firstNameField.getText();
-            String lastName = lastNameField.getText();
-            String street = streetField.getText();
-            String city = cityField.getText();
-            String state = stateField.getText();
-            String zip = zipField.getText();
-            String telephone = telephoneField.getText();
+            try {
+                String firstName = Util.isRequired(firstNameField.getText(), "First name");
+                String lastName = Util.isRequired(lastNameField.getText(), "Last name");
+                String street = streetField.getText();
+                String city = cityField.getText();
+                String state = stateField.getText();
+                String zip = Util.isNumericString(zipField.getText(), 5, 5, "Zip code");
+                String telephone = Util.isRequired(telephoneField.getText(), "Telephone");
 
-            controller.addMember(new LibraryMember(Util.getRandom(), firstName, lastName, telephone, new Address(street, city, state, zip)));
-            JOptionPane.showMessageDialog(AddMemberWindow.this, "Member added successfully.");
-            this.reset();
+                controller.addMember(new LibraryMember(Util.getRandom(), firstName, lastName, telephone, new Address(street, city, state, zip)));
+                JOptionPane.showMessageDialog(AddMemberWindow.this, "Member added successfully.");
+                this.reset();
+            } catch (ValidationException exception) {
+                JOptionPane.showMessageDialog(AddMemberWindow.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         backButton.addActionListener(e -> {

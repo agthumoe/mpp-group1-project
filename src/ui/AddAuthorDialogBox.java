@@ -4,6 +4,7 @@ import business.Address;
 import business.Author;
 import business.ControllerInterface;
 import business.SystemController;
+import exceptions.ValidationException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -183,17 +184,21 @@ public class AddAuthorDialogBox extends JDialog {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String firstName = firstNameField.getText();
-                String lastName = lastNameField.getText();
-                String telephone = telephoneField.getText();
-                String street = streetField.getText();
-                String city = cityField.getText();
-                String state = stateField.getText();
-                String zip = zipField.getText();
-                String bio = bioField.getText();
-                controller.addAuthor(new Author(firstName, lastName, telephone, new Address(street, city, state, zip), bio));
-                JOptionPane.showMessageDialog(null, "Author added");
-                AddBookWindow.getInstance().loadAuthors();
+                try {
+                    String firstName = Util.isRequired(firstNameField.getText(), "First name");
+                    String lastName = Util.isRequired(lastNameField.getText(), "Last name");
+                    String telephone = telephoneField.getText();
+                    String street = streetField.getText();
+                    String city = cityField.getText();
+                    String state = stateField.getText();
+                    String zip = Util.isNumericString(zipField.getText(), 5, 5, "Zip code");
+                    String bio = bioField.getText();
+                    controller.addAuthor(new Author(firstName, lastName, telephone, new Address(street, city, state, zip), bio));
+                    JOptionPane.showMessageDialog(null, "Author added");
+                    AddBookWindow.getInstance().loadAuthors();
+                } catch (ValidationException exception) {
+                    JOptionPane.showMessageDialog(AddAuthorDialogBox.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

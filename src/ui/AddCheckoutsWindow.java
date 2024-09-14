@@ -1,6 +1,5 @@
 package ui;
 
-import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
 
@@ -8,13 +7,11 @@ import javax.swing.*;
 
 public class AddCheckoutsWindow extends MenusWindow {
 
-    //    private static final long serialVersionUID = 1L;
     private static AddCheckoutsWindow instance;
     private final ControllerInterface controller;
 
     private JTextField memberIdField, isbnField;
     private JButton addButton, backButton;
-//    private JLabel statusLabel;
 
     private AddCheckoutsWindow() {
         this.controller = SystemController.getInstance();
@@ -59,18 +56,16 @@ public class AddCheckoutsWindow extends MenusWindow {
         backButton.setBounds(100, 380, 150, 25);
         panel.add(backButton);
 
-//        statusLabel = new JLabel("");
-//        statusLabel.setBounds(10, 420, 300, 25);
-//        panel.add(statusLabel);
-
         add(panel);
 
         addButton.addActionListener(e -> {
-            String memberId = memberIdField.getText();
-            String isbn = isbnField.getText();
             try {
-                Book book = controller.checkout(isbn, memberId);
+                String memberId = Util.isRequired(memberIdField.getText(), "Member ID");
+                String isbn = Util.isRequired(isbnField.getText(), "ISBN");
+                controller.checkout(isbn, memberId);
                 JOptionPane.showMessageDialog(AddCheckoutsWindow.this, "Checkout Book successfully.");
+            } catch (RuntimeException runtimeException) {
+                JOptionPane.showMessageDialog(AddCheckoutsWindow.this, runtimeException.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Book Checkout Error", JOptionPane.ERROR_MESSAGE);
                 return;

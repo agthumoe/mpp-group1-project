@@ -4,6 +4,7 @@ import business.Author;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import exceptions.ValidationException;
 import ui.components.BackToMainMenuButton;
 
 import javax.swing.*;
@@ -149,16 +150,20 @@ public class AddBookWindow extends MenusWindow {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String isbn = isbnField.getText();
-                String title = titleField.getText();
-                int checkoutLength = Integer.parseInt(maxCheckoutLengthField.getText());
-                int copies = Integer.parseInt(copiesField.getText());
-                List<Author> authors = authorsList.getSelectedValuesList();
-                Book b1 = new Book(isbn, title, checkoutLength, authors);
-                controller.addBook(b1);
-                b1.addCopy(copies);
-                JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
-                reset();
+                try {
+                    String isbn = Util.isRequired(isbnField.getText(), "Book isbn");
+                    String title = Util.isRequired(titleField.getText(), "Book title");
+                    int checkoutLength = Util.isNumber(maxCheckoutLengthField.getText(), 1, 100, "Max Checkout Length");
+                    int copies = Util.isNumber(copiesField.getText(), 1, 100, "Number of Copies");
+                    List<Author> authors = Util.isNotEmpty(authorsList.getSelectedValuesList(), "Authors");
+                    Book b1 = new Book(isbn, title, checkoutLength, authors);
+                    controller.addBook(b1);
+                    b1.addCopy(copies);
+                    JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
+                    reset();
+                } catch (ValidationException exception) {
+                    JOptionPane.showMessageDialog(AddBookWindow.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         this.loadAuthors();

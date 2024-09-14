@@ -1,6 +1,9 @@
 package ui;
 
-import business.*;
+import business.CheckoutRecord;
+import business.ControllerInterface;
+import business.RecordEntry;
+import business.SystemController;
 import dataaccess.Auth;
 import ui.components.BackToMainMenuButton;
 import ui.components.ImmutableTableModel;
@@ -75,7 +78,7 @@ public class AllCheckoutRecordWindow extends MenusWindow {
 
         List<CheckoutRecord> records = this.controller.getAllCheckoutRecords();
         for (CheckoutRecord record : records) {
-            for (RecordEntry entry: record.getEntries()) {
+            for (RecordEntry entry : record.getEntries()) {
                 String[] row = new String[]{record.getRecordID(), record.getMember().getMemberId(), record.getMember().getFirstName() + " " + record.getMember().getLastName(),
                         entry.getDateOfCheckout().format(df), entry.getDueDate().format(df),
                         entry.getBookCopy().getBook().getTitle(), Integer.toString(entry.getBookCopy().getCopyNum())};
