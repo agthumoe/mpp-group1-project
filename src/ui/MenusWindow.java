@@ -26,34 +26,37 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.updateAuth(SystemController.getCurrentAuth());
     }
 
-    public final void updateAuth(Auth auth) {
+    public void updateAuth(Auth auth) {
         if (this.isInitialized) {
-            this.loginMenuItem.setEnabled(false);
-            this.logoutMenuItem.setEnabled(true);
-            if (Auth.ADMIN.equals(auth)) {
-                this.bookMenu.setEnabled(true);
-                this.memberMenu.setEnabled(true);
-                this.addMemberMenuItem.setEnabled(true);
-                this.addBookMenuItem.setEnabled(true);
-                this.addCheckoutRecordMenuItem.setEnabled(false);
-            } else if (Auth.LIBRARIAN.equals(auth)) {
-                this.bookMenu.setEnabled(true);
-                this.memberMenu.setEnabled(true);
-                this.checkoutRecordMenu.setEnabled(true);
-                this.addMemberMenuItem.setEnabled(false);
-                this.addBookMenuItem.setEnabled(false);
-            } else if (Auth.BOTH.equals(auth)) {
-                this.checkoutRecordMenu.setEnabled(false);
-                this.addMemberMenuItem.setEnabled(false);
-                this.addBookMenuItem.setEnabled(false);
-            } else if (auth == null) {
-                this.loginMenuItem.setEnabled(true);
-                this.logoutMenuItem.setEnabled(false);
-                this.accountDetailsMenuItem.setEnabled(false);
-                this.bookMenu.setEnabled(false);
-                this.memberMenu.setEnabled(false);
-                this.checkoutRecordMenu.setEnabled(false);
-            }
+//            this.loginMenuItem.setEnabled(false);
+//            this.logoutMenuItem.setEnabled(true);
+//            if (Auth.ADMIN.equals(auth)) {
+//                this.bookMenu.setEnabled(true);
+//                this.memberMenu.setEnabled(true);
+//                this.addMemberMenuItem.setEnabled(true);
+//                this.addBookMenuItem.setEnabled(true);
+//                this.addCheckoutRecordMenuItem.setEnabled(false);
+//            } else if (Auth.LIBRARIAN.equals(auth)) {
+//                this.bookMenu.setEnabled(true);
+//                this.memberMenu.setEnabled(true);
+//                this.checkoutRecordMenu.setEnabled(true);
+//                this.addMemberMenuItem.setEnabled(false);
+//                this.addBookMenuItem.setEnabled(false);
+//            } else if (Auth.BOTH.equals(auth)) {
+//                this.bookMenu.setEnabled(true);
+//                this.memberMenu.setEnabled(true);
+//                this.checkoutRecordMenu.setEnabled(true);
+//                this.addBookMenuItem.setEnabled(true);
+//                this.addMemberMenuItem.setEnabled(true);
+//                this.addCheckoutRecordMenuItem.setEnabled(true);
+//            } else if (auth == null) {
+//                this.loginMenuItem.setEnabled(true);
+//                this.logoutMenuItem.setEnabled(false);
+//                this.accountDetailsMenuItem.setEnabled(false);
+//                this.bookMenu.setEnabled(false);
+//                this.memberMenu.setEnabled(false);
+//                this.checkoutRecordMenu.setEnabled(false);
+//            }
         }
     }
 

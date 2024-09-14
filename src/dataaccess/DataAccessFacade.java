@@ -1,5 +1,6 @@
 package dataaccess;
 
+import business.Author;
 import business.Book;
 import business.CheckoutRecord;
 import business.LibraryMember;
@@ -98,7 +99,6 @@ public class DataAccessFacade implements DataAccess {
     }
 
     public HashMap<String, CheckoutRecord> readRecordsMap() {
-
         return (HashMap<String, CheckoutRecord>) readFromStorages(StorageType.RECORDS);
     }
 
@@ -108,6 +108,19 @@ public class DataAccessFacade implements DataAccess {
         String memberId = member.getMemberId();
         mems.put(memberId, member);
         saveToStorage(StorageType.MEMBERS, mems);
+    }
+
+    @Override
+    public HashMap<String, Author> getAllAuthors() {
+        return readFromStorage(StorageType.AUTHORS);
+    }
+
+    @Override
+    public void saveAuthor(Author author) {
+        HashMap<String, Author> authors = getAllAuthors();
+        String authorId = author.getAuthorId();
+        authors.put(authorId, author);
+        saveToStorage(StorageType.AUTHORS, authors);
     }
 
     @Override
@@ -197,6 +210,12 @@ public class DataAccessFacade implements DataAccess {
         HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
         memberList.forEach(member -> members.put(member.getMemberId(), member));
         saveToStorage(StorageType.MEMBERS, members);
+    }
+
+    static void loadAuthorMap(List<Author> authorList) {
+        HashMap<String, Author> authors = new HashMap<>();
+        authorList.forEach(author -> authors.put(author.getAuthorId(), author));
+        saveToStorage(StorageType.AUTHORS, authors);
     }
 
     public static Object readFromStorages(StorageType type) {
