@@ -5,6 +5,7 @@ import business.CheckoutRecord;
 import business.LibraryMember;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface DataAccess {
     HashMap<String, Book> getAllBooks();
@@ -40,4 +41,6 @@ public interface DataAccess {
     public void saveNewRecord(CheckoutRecord record);
 
     public void saveNewMember(LibraryMember member);
+
+    public void loadRecordMap(List<CheckoutRecord> authorList);
 }

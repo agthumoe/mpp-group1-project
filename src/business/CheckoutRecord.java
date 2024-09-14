@@ -1,14 +1,16 @@
 package business;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CheckoutRecord implements Serializable {
     private static final long serialVersionUID = 7508481940058964471L;
 
-    private String recordID;
+    private String recordID = UUID.randomUUID().toString();;
 
-    private List<RecordEntry> entries;
+    private List<RecordEntry> entries = new ArrayList<>();;
 
     private LibraryMember member;
 

@@ -33,7 +33,10 @@ public class TestData {
 //		System.out.println(da.readUserMap());
         da.saveBook(new Book("99-11111", "Java 8", 3, new ArrayList<>()));
         System.out.println(da.getAllBooks());
+        da.loadRecordMap(new ArrayList<>());
     }
+
+
 
     ///create books
     public void bookData() {
