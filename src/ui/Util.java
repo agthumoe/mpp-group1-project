@@ -99,4 +99,8 @@ public final class Util {
 	public static String getRandom() {
 		return String.valueOf(new Random().nextInt(1000000, 999999));
 	}
+
+	public void validate(String input, ValidationRule rule) {
+
+	}
 }
