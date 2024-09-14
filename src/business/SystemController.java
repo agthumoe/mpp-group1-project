@@ -11,9 +11,9 @@ import dataaccess.User;
 import exceptions.BookNotFoundException;
 import exceptions.LoginException;
 import exceptions.MemberNotFoundException;
-import librarysystem.AddMemberWindow;
-import librarysystem.AllMembersWindow;
-import librarysystem.LibrarySystem;
+import ui.AddMemberWindow;
+import ui.AllMembersWindow;
+import ui.LibrarySystem;
 
 public class SystemController implements ControllerInterface {
 	public static ControllerInterface instance;
