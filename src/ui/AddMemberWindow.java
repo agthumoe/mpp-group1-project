@@ -5,6 +5,7 @@ import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 import exceptions.ValidationException;
+import ui.components.CustomPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -185,14 +186,5 @@ public class AddMemberWindow extends MenusWindow {
         this.stateField.setText("");
         this.zipField.setText("");
         this.telephoneField.setText("");
-    }
-}
-
-class CustomPanel extends JPanel {
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.WHITE);
-        g.fillRect(10, 10, getWidth() - 20, getHeight() - 20);
     }
 }

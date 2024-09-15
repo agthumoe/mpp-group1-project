@@ -2,6 +2,7 @@ package ui;
 
 import business.ControllerInterface;
 import business.SystemController;
+import ui.components.CustomPanel;
 
 import javax.swing.*;
 import java.awt.*;

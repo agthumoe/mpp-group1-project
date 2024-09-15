@@ -1,5 +1,7 @@
 package business;
 
+import exceptions.BookNotFoundException;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -71,19 +73,9 @@ final public class Book implements Serializable {
         return b.isbn.equals(isbn);
     }
 
-
-    public boolean isAvailable() {
-        if (copies == null) {
-            return false;
-        }
-        return Arrays.stream(copies)
-                .map(l -> l.isAvailable())
-                .reduce(false, (x, y) -> x || y);
-    }
-
     @Override
     public String toString() {
-        return "isbn: " + isbn + ", maxLength: " + maxCheckoutLength + ", available: " + isAvailable() + ", copies: " + Arrays.toString(this.copies) + "\n";
+        return "isbn: " + isbn + ", maxLength: " + maxCheckoutLength + ", available: " + getNextAvailableCopy().isPresent() + ", copies: " + Arrays.toString(this.copies) + "\n";
     }
 
     public int getNumCopies() {

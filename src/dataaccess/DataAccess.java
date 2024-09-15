@@ -7,6 +7,7 @@ import business.LibraryMember;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public interface DataAccess {
     HashMap<String, Book> getAllBooks();
@@ -16,6 +17,10 @@ public interface DataAccess {
     void updateBook(Book book);
 
     void deleteBook(Book book);
+
+    Book getBook(String isbn);
+
+    LibraryMember getLibraryMember(String memberId);
 
     HashMap<String, User> getAllUsers();
 

@@ -6,6 +6,7 @@ import business.ControllerInterface;
 import business.SystemController;
 import exceptions.ValidationException;
 import ui.components.BackToMainMenuButton;
+import ui.components.CustomPanel;
 
 import javax.swing.*;
 import java.awt.*;

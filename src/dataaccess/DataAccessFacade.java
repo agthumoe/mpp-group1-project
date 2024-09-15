@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class DataAccessFacade implements DataAccess {
     private static DataAccess instance = null;
@@ -322,4 +323,21 @@ public class DataAccessFacade implements DataAccess {
         private static final long serialVersionUID = 5399827794066637059L;
     }
 
+    @Override
+    public Book getBook(String isbn) {
+        HashMap<String, Book> books = getAllBooks();
+        if (books.containsKey(isbn)) {
+            return books.get(isbn);
+        }
+        throw new BookNotFoundException("Book: " + isbn + ", cannot be found.");
+    }
+
+    @Override
+    public LibraryMember getLibraryMember(String memberId) {
+        HashMap<String, LibraryMember> members = getAllMembers();
+        if (members.containsKey(memberId)) {
+            return members.get(memberId);
+        }
+        throw new MemberNotFoundException("Member: " + memberId + ", cannot be found.");
+    }
 }

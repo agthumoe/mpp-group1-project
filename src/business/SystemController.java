@@ -6,7 +6,6 @@ import dataaccess.DataAccessFacade;
 import dataaccess.User;
 import exceptions.BookNotFoundException;
 import exceptions.LoginException;
-import exceptions.MemberNotFoundException;
 import ui.*;
 
 import java.util.ArrayList;
@@ -69,30 +68,17 @@ public class SystemController implements ControllerInterface {
 
     @Override
     public Book checkout(String isbn, String memberId) {
-        HashMap<String, LibraryMember> members = this.dataAccess.getAllMembers();
-        HashMap<String, Book> books = this.dataAccess.getAllBooks();
-        if (!members.containsKey(memberId)) {
-            throw new MemberNotFoundException("Member ID " + memberId + " not found");
-        }
-        if (!books.containsKey(isbn)) {
-            throw new BookNotFoundException("Book ID " + isbn + " not found");
-        }
-
-        Book book = books.get(isbn);
-        if (!book.isAvailable()) {
-            throw new BookNotFoundException("Book copy is not available.");
-        }
+        LibraryMember member = this.dataAccess.getLibraryMember(memberId);
+        Book book = this.dataAccess.getBook(isbn);
         Optional<BookCopy> copy = book.getNextAvailableCopy();
         if (copy.isEmpty()) {
             throw new BookNotFoundException("Book copy is not available");
         }
-        LibraryMember member = members.get(memberId);
-
-        copy.get().changeAvailability();
         CheckoutRecord record = new CheckoutRecord(Util.getRandom(), member, new RecordEntry(copy.get()));
+        copy.get().updateCopyAvailability();
         dataAccess.saveNewRecord(record);
         dataAccess.updateBook(book);
-        dataAccess.saveNewMember(member);
+        dataAccess.updateMember(member);
         return book;
 
     }
