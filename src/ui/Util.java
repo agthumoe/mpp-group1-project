@@ -114,13 +114,6 @@ public final class Util {
         return input;
     }
 
-    public static String hasMinMaxString(String input, int min, int max, String fieldName) {
-        if (input == null || input.length() < min || input.length() > max) {
-            throw new ValidationException(fieldName + " must be between: " + min + " and " + max);
-        }
-        return input;
-    }
-
     public static String isNumericString(String input, int min, int max, String fieldName) {
         if (input == null || !input.matches("\\d+")) {
             throw new ValidationException(fieldName + " must be a numeric value");
