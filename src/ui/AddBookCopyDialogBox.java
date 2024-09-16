@@ -98,7 +98,7 @@ public class AddBookCopyDialogBox extends JDialog {
                                 throw new ValidationException("Must select a book");
                             }
                             controller.makeCopy(book, numberOfCopies);
-                            JOptionPane.showMessageDialog(AddBookCopyDialogBox.this, "Book copied successfully");
+                            JOptionPane.showMessageDialog(AddBookCopyDialogBox.this, numberOfCopies + " book copies added successfully to the book with isbn: " + book.getIsbn());
                             AllBooksWindow.getInstance().loadData();
                             AddBookCopyDialogBox.this.setVisible(false);
                             AddBookCopyDialogBox.this.dispose();

@@ -87,7 +87,7 @@ public class AddCheckoutsWindow extends MenusWindow {
                 String memberId = Util.isRequired(memberIdField.getText(), "Member ID");
                 String isbn = Util.isRequired(isbnField.getText(), "ISBN");
                 controller.checkout(isbn, memberId);
-                JOptionPane.showMessageDialog(AddCheckoutsWindow.this, "Checkout Book successfully.");
+                JOptionPane.showMessageDialog(AddCheckoutsWindow.this, "Member ID: " + memberId + " checkout book with ISBN: " + isbn + " successfully.");
             } catch (RuntimeException runtimeException) {
                 JOptionPane.showMessageDialog(AddCheckoutsWindow.this, runtimeException.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {

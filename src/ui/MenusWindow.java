@@ -1,5 +1,6 @@
 package ui;
 
+import business.LibraryMember;
 import business.SystemController;
 import dataaccess.Auth;
 
@@ -110,6 +111,9 @@ public abstract class MenusWindow extends JFrame implements LibWindow {
         this.logoutMenuItem.addActionListener((evt) -> {
             SystemController.setCurrentAuth(null);
             JOptionPane.showMessageDialog(this, "Logout Successful");
+            // redirect to LibrarySystem windows
+            Util.hideAllWindows();
+            LibrarySystem.getInstance().setVisible(true);
         });
         this.addAuthorMenuItem.addActionListener((e) -> {
             JDialog dialog = new AddAuthorDialogBox();
