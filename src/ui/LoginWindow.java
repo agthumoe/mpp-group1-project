@@ -5,6 +5,7 @@ import business.SystemController;
 import dataaccess.Auth;
 import exceptions.LoginException;
 import ui.components.BackToMainMenuButton;
+import ui.components.BackgroundPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -265,41 +266,9 @@ public class LoginWindow extends JFrame implements LibWindow {
                     LibrarySystem.getInstance().setVisible(true);
                     reset();
                 } catch (LoginException e) {
-                    JOptionPane.showMessageDialog(LoginWindow.this, e.getMessage());
+                    JOptionPane.showMessageDialog(LoginWindow.this, e.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-    }
-}
-
-
-class BackgroundPanel extends JPanel {
-    private Image backgroundImage;
-
-    public BackgroundPanel(String fileName) {
-        try {
-            BufferedImage originalImage = ImageIO.read(new File(fileName));
-            backgroundImage = blurImage(originalImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private BufferedImage blurImage(BufferedImage image) {
-        float[] matrix = {
-                1 / 16f, 2 / 16f, 1 / 16f,
-                2 / 16f, 4 / 16f, 2 / 16f,
-                1 / 16f, 2 / 16f, 1 / 16f
-        };
-        BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix), ConvolveOp.EDGE_NO_OP, null);
-        return op.filter(image, null);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        }
     }
 }

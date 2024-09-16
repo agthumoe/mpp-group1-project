@@ -52,7 +52,7 @@ public class DataAccessFacade implements DataAccess {
         } else {
             throw new MemberNotFoundException("Member Id: " + member.getMemberId() + ", cannot be found.");
         }
-        saveToStorage(StorageType.MEMBERS, member);
+        saveToStorage(StorageType.MEMBERS, members);
 
     }
 

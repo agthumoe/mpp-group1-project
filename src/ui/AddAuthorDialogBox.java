@@ -194,7 +194,7 @@ public class AddAuthorDialogBox extends JDialog {
                     String zip = Util.isNumericString(zipField.getText(), 5, 5, "Zip code");
                     String bio = bioField.getText();
                     controller.addAuthor(new Author(firstName, lastName, telephone, new Address(street, city, state, zip), bio));
-                    JOptionPane.showMessageDialog(null, "Author added");
+                    JOptionPane.showMessageDialog(null, "New author named: " + firstName + " " + lastName + " is saved.");
                     AddBookWindow.getInstance().loadAuthors();
                 } catch (ValidationException exception) {
                     JOptionPane.showMessageDialog(AddAuthorDialogBox.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

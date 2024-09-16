@@ -163,7 +163,7 @@ public class AddMemberWindow extends MenusWindow {
 
                 String id = Util.getRandom();
                 controller.addMember(new LibraryMember(id, firstName, lastName, telephone, new Address(street, city, state, zip)));
-                JOptionPane.showMessageDialog(AddMemberWindow.this, "New Member ID: " + id + ", added successfully.");
+                JOptionPane.showMessageDialog(AddMemberWindow.this, "New Member ID: " + id + " added successfully.");
                 this.reset();
             } catch (ValidationException exception) {
                 JOptionPane.showMessageDialog(AddMemberWindow.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

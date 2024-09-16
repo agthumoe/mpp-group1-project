@@ -183,7 +183,7 @@ public class AddBookWindow extends MenusWindow {
                     List<Author> authors = Util.isNotEmpty(authorsList.getSelectedValuesList(), "Authors");
                     Book b1 = new Book(isbn, title, checkoutLength, authors, copies);
                     controller.addBook(b1);
-                    JOptionPane.showMessageDialog(AddBookWindow.this, "Book Added Successfully");
+                    JOptionPane.showMessageDialog(AddBookWindow.this, "Book with isbn number: " + isbn + " added successfully");
                     reset();
                 } catch (ValidationException exception) {
                     JOptionPane.showMessageDialog(AddBookWindow.this, exception.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
